@@ -6,8 +6,8 @@ async function connectDatabase() {
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: 'pathFinder' // Use the name of your database here
+      password: process.env.DB_PASS,
+      database: 'PathFinder' // Use the name of your database here
     });
 
     console.log('Connected to the database');

@@ -3,8 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const studentRoutes = require('./routes/studentRoutes');
+<<<<<<< Updated upstream
 const courseRoutes = require('./routes/courseRoutes');
 const { getCourses, insertCoursesIntoDatabase } = require('./utils/courseUtils'); // Import insertCoursesIntoDatabase function
+=======
+const professorRoutes = require('./routes/professorRoutes');
+>>>>>>> Stashed changes
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,7 +19,11 @@ app.use(express.json());
 
 // Routes
 app.use('/api/students', studentRoutes);
+<<<<<<< Updated upstream
 app.use('/api', courseRoutes);
+=======
+app.use('/api/professors', professorRoutes);
+>>>>>>> Stashed changes
 
 const PORT = process.env.PORT || 3000;
 
