@@ -1,30 +1,42 @@
-// controllers/courseController.js
+// courseController.js
 
 const connectDatabase = require('../config/db');
 
-// Function to enroll in courses
-exports.enrollCourses = async (studentId, courseIds) => {
-    try {
-      const db = await connectDatabase();
-  
-      // Iterate over courseIds and insert enrollment records for each course
-      for (const courseId of courseIds) {
-        // Check if the student is already enrolled in the course
-        const [existingEnrollment] = await db.query('SELECT id FROM enrollments WHERE student_id = ? AND course_id = ?', [studentId, courseId]);
-        if (existingEnrollment.length > 0) {
-          console.log(`Student with ID ${studentId} is already enrolled in course with ID ${courseId}`);
-        } else {
-          // If not already enrolled, insert the enrollment record into the database
-          await db.query('INSERT INTO enrollments (student_id, course_id) VALUES (?, ?)', [studentId, courseId]);
-          console.log(`Student with ID ${studentId} enrolled in course with ID ${courseId}`);
-        }
+exports.enrollCourses = async (netId, courseCodes) => {
+  try {
+    const db = await connectDatabase();
+
+    // Iterate over courseCodes and find the corresponding course IDs
+    const courseIds = [];
+    for (const courseCode of courseCodes) {
+      // Query the course ID based on the provided courseCode
+      const [course] = await db.query('SELECT id FROM courses WHERE course_code = ?', [courseCode]);
+      if (course.length > 0) {
+        courseIds.push(course[0].id);
+      } else {
+        console.log(`Course with code ${courseCode} not found`);
+        // Handle the case where the provided courseCode is not found
       }
-  
-      return { message: 'Enrollment successful' };
-    } catch (error) {
-      throw new Error('Error enrolling in courses: ' + error.message);
     }
-  };
+
+    // Now we have the netId and courseIds, proceed to enroll the student
+    for (const courseId of courseIds) {
+      // Check if the student is already enrolled in the course
+      const [existingEnrollment] = await db.query('SELECT id FROM enrollments WHERE net_id = ? AND course_id = ?', [netId, courseId]);
+      if (existingEnrollment.length > 0) {
+        console.log(`Student with netId ${netId} is already enrolled in course with ID ${courseId}`);
+      } else {
+        // If not already enrolled, insert the enrollment record into the database
+        await db.query('INSERT INTO enrollments (net_id, course_id) VALUES (?, ?)', [netId, courseId]);
+        console.log(`Student with netId ${netId} enrolled in course with ID ${courseId}`);
+      }
+    }
+
+    return { message: 'Enrollment successful' };
+  } catch (error) {
+    throw new Error('Error enrolling in courses: ' + error.message);
+  }
+};
 
 // Function to get list of enrolled courses for a student
 exports.getEnrolledCourses = async (netId) => {
@@ -36,7 +48,8 @@ exports.getEnrolledCourses = async (netId) => {
       SELECT courses.code, courses.name, courses.instructor, courses.credits
       FROM courses
       INNER JOIN enrollments ON courses.id = enrollments.course_id
-      WHERE enrollments.student_net_id = ?
+      INNER JOIN students ON students.id = enrollments.student_id
+      WHERE students.net_id = ?
     `, [netId]);
     
     return enrolledCourses;

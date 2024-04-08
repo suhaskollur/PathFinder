@@ -19,24 +19,23 @@ router.get('/courses', authenticateStudent, async (req, res) => {
 
 // Route to enroll in a course
 router.post('/enroll', authenticateStudent, async (req, res) => {
-    const { courseIds } = req.body; // Extract courseIds from request body
-    const { netId } = req.student;
-  
-    try {
-      const enrollmentStatus = await enrollCourses(netId, courseIds);
-      return res.status(200).json(enrollmentStatus);
-    } catch (error) {
-      console.error('Error enrolling in courses:', error);
-      return res.status(500).json({ message: 'Internal server error' });
-    }
-  });
+  const { courseCodes, netId } = req.body; // Extract courseCodes and netId from request body
+
+  try {
+    const enrollmentStatus = await enrollCourses(netId, courseCodes); // Pass netId
+    return res.status(200).json(enrollmentStatus);
+  } catch (error) {
+    console.error('Error enrolling in courses:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 // Route to get list of enrolled courses for a student
 router.get('/enrolled-courses', authenticateStudent, async (req, res) => {
-  const { netId } = req.student;
+  const { net_id } = req.student; // Ensure correct property name (net_id) is used
 
   try {
-    const enrolledCourses = await getEnrolledCourses(netId);
+    const enrolledCourses = await getEnrolledCourses(net_id); // Pass net_id
     return res.status(200).json(enrolledCourses);
   } catch (error) {
     console.error('Error getting enrolled courses:', error);
