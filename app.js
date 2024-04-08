@@ -1,6 +1,10 @@
+// app.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const studentRoutes = require('./routes/studentRoutes');
+const courseRoutes = require('./routes/courseRoutes');
+const { getCourses, insertCoursesIntoDatabase } = require('./utils/courseUtils'); // Import insertCoursesIntoDatabase function
 
 const app = express();
 app.use(bodyParser.json());
@@ -11,6 +15,20 @@ app.use(express.json());
 
 // Routes
 app.use('/api/students', studentRoutes);
+app.use('/api', courseRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Call the function to insert courses from CSV into the database
+getCourses()
+  .then(courses => {
+    // Removed the console.log statement here
+    return insertCoursesIntoDatabase(courses); // Pass courses to the insert function
+  })
+  .then(() => {
+    // Start the server after courses are inserted
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });

@@ -1,3 +1,5 @@
+//authMiddleware.js
+
 const jwt = require('jsonwebtoken');
 
 exports.authenticateStudent = (req, res, next) => {
