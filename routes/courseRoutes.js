@@ -19,10 +19,11 @@ router.get('/courses', authenticateStudent, async (req, res) => {
 
 // Route to enroll in a course
 router.post('/enroll', authenticateStudent, async (req, res) => {
-  const { courseCodes, netId } = req.body; // Extract courseCodes and netId from request body
+  const { courseCodes } = req.body; // Extract courseCodes from request body
+  const { netId } = req.student; // Extract netId from authenticated student
 
   try {
-    const enrollmentStatus = await enrollCourses(netId, courseCodes); // Pass netId
+    const enrollmentStatus = await enrollCourses(netId, courseCodes, netId); // Pass netId
     return res.status(200).json(enrollmentStatus);
   } catch (error) {
     console.error('Error enrolling in courses:', error);

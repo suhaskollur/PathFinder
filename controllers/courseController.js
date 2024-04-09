@@ -2,8 +2,13 @@
 
 const connectDatabase = require('../config/db');
 
-exports.enrollCourses = async (netId, courseCodes) => {
+exports.enrollCourses = async (netId, courseCodes, requestingNetId) => {
   try {
+    // Check if the requesting student is authorized to enroll for the specified netId
+    if (netId !== requestingNetId) {
+      throw new Error('You are not authorized to enroll for another student');
+    }
+
     const db = await connectDatabase();
 
     // Iterate over courseCodes and find the corresponding course IDs
