@@ -30,3 +30,13 @@ CREATE TABLE professors (
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE course_creation (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  course_id INT NOT NULL,
+  course_instructor VARCHAR(100) NOT NULL,
+  course_credits INT NOT NULL,
+  FOREIGN KEY (course_id) REFERENCES courses(id)
+);
+
+

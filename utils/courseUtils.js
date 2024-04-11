@@ -1,9 +1,14 @@
 // courseUtils.js
 
 const fs = require('fs');
+// const csv = require('@fast-csv/parse');
 const path = require('path');
 const csvParser = require('csv-parser');
 const connectDatabase = require('../config/db');
+const { courseController } = require('../controllers/courseController');
+const filePath = path.join(__dirname, '..', 'webScraping', 'course_data.csv');
+// const csvFilePath = path.resolve(__dirname, '..', 'webScraping', 'course_data.csv');
+// const absoluteFilePath = path.resolve(__dirname, filePath);
 
 // Function to read course details from CSV file
 const getCourses = () => {
@@ -53,4 +58,29 @@ const insertCoursesIntoDatabase = async (courses) => { // Accept courses as para
   }
 };
 
-module.exports = { getCourses, insertCoursesIntoDatabase };
+
+
+function readCoursesFromCSV(filePath) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    fs.createReadStream(filePath)
+      .pipe(csvParser())
+      .on('data', (data) => results.push(data))
+      .on('end', () => resolve(results))
+      .on('error', (error) => reject(error));
+  });
+}
+
+function addCourseToCSV(filePath, course) {
+
+  const absoluteFilePath = path.resolve(__dirname, filePath);
+  
+  return new Promise((resolve, reject) => {
+    const stream = fs.createWriteStream(absoluteFilePath, { flags: 'a' });
+    csv.write([course], { headers: false }).pipe(stream)
+      .on('finish', resolve)
+      .on('error', reject);
+  });
+}
+
+module.exports = { getCourses, insertCoursesIntoDatabase, readCoursesFromCSV, addCourseToCSV };

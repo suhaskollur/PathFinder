@@ -6,6 +6,10 @@ const { enrollCourses, getEnrolledCourses } = require('../controllers/courseCont
 const { getCourses } = require('../utils/courseUtils'); // Import getCourses from courseUtils
 const { authenticateStudent } = require('../middlewares/authMiddleware');
 
+
+const {createOrFindCourse}  = require('../controllers/courseController');
+
+
 // Route to get list of available courses
 router.get('/courses', authenticateStudent, async (req, res) => {
   try {
@@ -43,5 +47,8 @@ router.get('/enrolled-courses', authenticateStudent, async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+console.log(createOrFindCourse);
+router.post('/professors/courses', createOrFindCourse);
 
 module.exports = router;

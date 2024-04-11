@@ -1,6 +1,10 @@
 // courseController.js
 
 const connectDatabase = require('../config/db');
+const { readCoursesFromCSV, addCourseToCSV } = require('../utils/courseUtils');
+const path = require('path');
+const csvFilePath = path.resolve(__dirname, '..', 'webScraping', 'course_data.csv');
+
 
 exports.enrollCourses = async (netId, courseCodes, requestingNetId) => {
   try {
@@ -62,3 +66,47 @@ exports.getEnrolledCourses = async (netId) => {
     throw new Error('Error getting enrolled courses: ' + error.message);
   }
 };
+
+
+exports.createOrFindCourse = async (req, res) => {
+  const { course_code, course_name, course_description, course_instructor, course_credits } = req.body;
+  console.log(req.body);
+  // if (!course_code || !course_name || !course_description || !course_instructor || !course_credits) {
+  //   return res.status(400).send('Missing required course details.');
+  // }
+
+  try {
+    const db = await connectDatabase();
+    // Check if the course exists in the database
+    const [existingDbCourses] = await db.query(
+      'SELECT * FROM courses WHERE course_code = ? LIMIT 1',
+      [course_code]
+    );
+
+    let courseId;
+
+    if (existingDbCourses.length === 0) {
+      // The course does not exist, insert into `courses` table
+      const [course] = await db.query(
+        'INSERT INTO courses (course_code, course_name, course_description) VALUES (?, ?, ?)',
+        [course_code, course_name, course_description]
+      );
+      courseId = course.insertId;
+    } else {
+      // The course already exists, get its ID
+      courseId = existingDbCourses[0].id;
+    }
+
+    await db.query(
+      'INSERT INTO course_creation (course_id, course_instructor, course_credits) VALUES (?, ?, ?)',
+      [courseId, course_instructor, course_credits]
+    );
+
+    res.status(201).send('Course creation entry added successfully.');
+
+  } catch (error) {
+    console.error('Failed to create or find course:', error);
+    res.status(500).send('Server error.');
+  }
+};
+
