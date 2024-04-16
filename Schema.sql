@@ -40,3 +40,6 @@ CREATE TABLE course_creation (
 );
 
 
+Select * From course_creation;
+
+Select * From courses;

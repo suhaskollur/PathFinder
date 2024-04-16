@@ -2,9 +2,10 @@
 
 const express = require('express');
 const router = express.Router();
-const { enrollCourses, getEnrolledCourses } = require('../controllers/courseController');
+const { enrollCourses, getEnrolledCourses, getCoursesForProfessor, updateCourseDetails } = require('../controllers/courseController');
 const { getCourses } = require('../utils/courseUtils'); // Import getCourses from courseUtils
-const { authenticateStudent } = require('../middlewares/authMiddleware');
+const { authenticateStudent, authenticateProfessor } = require('../middlewares/authMiddleware');
+
 
 
 const {createOrFindCourse}  = require('../controllers/courseController');
@@ -50,5 +51,9 @@ router.get('/enrolled-courses', authenticateStudent, async (req, res) => {
 
 console.log(createOrFindCourse);
 router.post('/professors/courses', createOrFindCourse);
+
+router.get('/retrieve', authenticateProfessor, getCoursesForProfessor);
+
+router.put('/courses/:courseId', updateCourseDetails);
 
 module.exports = router;
