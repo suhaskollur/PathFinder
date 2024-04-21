@@ -6,7 +6,7 @@ const studentRoutes = require('./routes/studentRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const { getCourses, insertCoursesIntoDatabase } = require('./utils/courseUtils'); // Import insertCoursesIntoDatabase function
 const professorRoutes = require('./routes/professorRoutes');
-
+//>>>>>>> Stashed changes
 
 const app = express();
 app.use(bodyParser.json());
@@ -19,6 +19,7 @@ app.use(express.json());
 app.use('/api/students', studentRoutes);
 app.use('/api', courseRoutes);
 app.use('/api/professors', professorRoutes);
+//>>>>>>> Stashed changes
 
 const PORT = process.env.PORT || 3000;
 
