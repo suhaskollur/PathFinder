@@ -39,4 +39,21 @@ CREATE TABLE course_creation (
   FOREIGN KEY (course_id) REFERENCES courses(id)
 );
 
+-- CREATE TABLE assignments (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   course_id INT,
+--   title VARCHAR(100) NOT NULL,
+--   description TEXT,
+--   deadline DATETIME,
+--   FOREIGN KEY (course_id) REFERENCES courses(id)
+-- );
 
+-- CREATE TABLE submissions (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   assignment_id INT,
+--   student_id INT,
+--   file_path VARCHAR(255),
+--   submission_time DATETIME,
+--   FOREIGN KEY (assignment_id) REFERENCES assignments(id),
+--   FOREIGN KEY (student_id) REFERENCES students(id)
+-- );
