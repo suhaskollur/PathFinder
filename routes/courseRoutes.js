@@ -38,10 +38,10 @@ router.post('/enroll', authenticateStudent, async (req, res) => {
 
 // Route to get list of enrolled courses for a student
 router.get('/enrolled-courses', authenticateStudent, async (req, res) => {
-  const { net_id } = req.student; // Ensure correct property name (net_id) is used
+  const { netId } = req.student; // Ensure correct property name (net_id) is used
 
   try {
-    const enrolledCourses = await getEnrolledCourses(net_id); // Pass net_id
+    const enrolledCourses = await getEnrolledCourses(netId); // Pass net_id
     return res.status(200).json(enrolledCourses);
   } catch (error) {
     console.error('Error getting enrolled courses:', error);

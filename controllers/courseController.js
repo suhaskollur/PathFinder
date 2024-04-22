@@ -4,6 +4,7 @@ const { connect } = require('http2');
 const connectDatabase = require('../config/db');
 const { readCoursesFromCSV, addCourseToCSV } = require('../utils/courseUtils');
 const path = require('path');
+const { query } = require('express');
 const csvFilePath = path.resolve(__dirname, '..', 'webScraping', 'course_data.csv');
 
 
@@ -16,29 +17,29 @@ exports.enrollCourses = async (netId, courseCodes, requestingNetId) => {
 
     const db = await connectDatabase();
 
-    // Iterate over courseCodes and find the corresponding course IDs
-    const courseIds = [];
+    // Iterate over courseCodes and find the corresponding course IDs and course details
     for (const courseCode of courseCodes) {
-      // Query the course ID based on the provided courseCode
-      const [course] = await db.query('SELECT id FROM courses WHERE course_code = ?', [courseCode]);
+      // Query the course details based on the provided courseCode
+      const [course] = await db.query('SELECT id, course_code, course_name FROM courses WHERE course_code = ?', [courseCode]);
+      
       if (course.length > 0) {
-        courseIds.push(course[0].id);
+        const courseId = course[0].id;
+        const courseCode = course[0].course_code;
+        const courseName = course[0].course_name;
+
+        // Check if the student is already enrolled in the course
+        const [existingEnrollment] = await db.query('SELECT id FROM enrollments WHERE net_id = ? AND course_id = ?', [netId, courseId]);
+
+        if (existingEnrollment.length > 0) {
+          console.log(`Student with netId ${netId} is already enrolled in course with ID ${courseId}`);
+        } else {
+          // If not already enrolled, insert the enrollment record into the database with course_code and course_name
+          await db.query('INSERT INTO enrollments (net_id, course_id, course_code, course_name) VALUES (?, ?, ?, ?)', [netId, courseId, courseCode, courseName]);
+          console.log(`Student with netId ${netId} enrolled in course with ID ${courseId}`);
+        }
       } else {
         console.log(`Course with code ${courseCode} not found`);
         // Handle the case where the provided courseCode is not found
-      }
-    }
-
-    // Now we have the netId and courseIds, proceed to enroll the student
-    for (const courseId of courseIds) {
-      // Check if the student is already enrolled in the course
-      const [existingEnrollment] = await db.query('SELECT id FROM enrollments WHERE net_id = ? AND course_id = ?', [netId, courseId]);
-      if (existingEnrollment.length > 0) {
-        console.log(`Student with netId ${netId} is already enrolled in course with ID ${courseId}`);
-      } else {
-        // If not already enrolled, insert the enrollment record into the database
-        await db.query('INSERT INTO enrollments (net_id, course_id) VALUES (?, ?)', [netId, courseId]);
-        console.log(`Student with netId ${netId} enrolled in course with ID ${courseId}`);
       }
     }
 
@@ -48,6 +49,7 @@ exports.enrollCourses = async (netId, courseCodes, requestingNetId) => {
   }
 };
 
+
 // Function to get list of enrolled courses for a student
 exports.getEnrolledCourses = async (netId) => {
   try {
@@ -55,13 +57,17 @@ exports.getEnrolledCourses = async (netId) => {
 
     // Retrieve enrolled courses for the student
     const [enrolledCourses] = await db.query(`
-      SELECT courses.code, courses.name, courses.instructor, courses.credits
-      FROM courses
-      INNER JOIN enrollments ON courses.id = enrollments.course_id
-      INNER JOIN students ON students.id = enrollments.student_id
-      WHERE students.net_id = ?
+    SELECT courses.course_code, courses.course_name
+    FROM courses
+    INNER JOIN enrollments ON courses.id = enrollments.course_id
+    INNER JOIN students ON students.net_id = enrollments.net_id
+    WHERE students.net_id = ?    
     `, [netId]);
-    
+
+    console.log('Executing SQL query:', query);
+    console.log('Parameters:', [netId]);
+
+    console.log('Enrolled courses:', enrolledCourses); // Debugging line
     return enrolledCourses;
   } catch (error) {
     throw new Error('Error getting enrolled courses: ' + error.message);
@@ -184,15 +190,15 @@ exports.getCoursesForProfessor = async (req, res) => {
 
 
 
-exports.updateCourseDetails = async(req, res) => {
+exports.updateCourseDetails = async (req, res) => {
   const db = await connectDatabase();
   const courseId = parseInt(req.params.courseId);
 
   const { course_code, course_name, course_description, course_instructor, course_credits } = req.body;
 
-    try {
-        // Update courses table
-        const updateCoursesQuery = `
+  try {
+    // Update courses table
+    const updateCoursesQuery = `
             UPDATE courses 
             SET 
                 course_code = ?, 
@@ -200,25 +206,25 @@ exports.updateCourseDetails = async(req, res) => {
                 course_description = ? 
             WHERE 
                 id = ?`;
-        
-        await db.query(updateCoursesQuery, [course_code, course_name, course_description, courseId]);
 
-        // Update course_creation table
-        const updateCourseCreationQuery = `
+    await db.query(updateCoursesQuery, [course_code, course_name, course_description, courseId]);
+
+    // Update course_creation table
+    const updateCourseCreationQuery = `
             UPDATE course_creation 
             SET 
                 course_instructor = ?, 
                 course_credits = ? 
             WHERE 
                 course_id = ?`;
-        
-        await db.query(updateCourseCreationQuery, [course_instructor, course_credits, courseId]);
 
-        res.status(200).json({ message: 'Course details updated successfully' });
-    } catch (error) {
-        console.error('Error updating course details:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+    await db.query(updateCourseCreationQuery, [course_instructor, course_credits, courseId]);
+
+    res.status(200).json({ message: 'Course details updated successfully' });
+  } catch (error) {
+    console.error('Error updating course details:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 
 
 

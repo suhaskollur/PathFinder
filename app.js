@@ -6,14 +6,21 @@ const studentRoutes = require('./routes/studentRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const { getCourses, insertCoursesIntoDatabase } = require('./utils/courseUtils'); // Import insertCoursesIntoDatabase function
 const professorRoutes = require('./routes/professorRoutes');
+const cors = require('cors');
+const path = require('path');
+
 //>>>>>>> Stashed changes
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve frontend files
+app.use(express.static(path.join(__dirname, 'frontend')));
+
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Routes
 app.use('/api/students', studentRoutes);
@@ -36,3 +43,8 @@ getCourses()
   .catch(error => {
     console.error('Error:', error);
   });
+
+// Add this at the end to handle any other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
