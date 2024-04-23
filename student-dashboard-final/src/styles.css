@@ -1,0 +1,120 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ededed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 84vh;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    font-size: 34px;
+    color: #5f5b5b;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  input {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  button {
+    padding: 15px;
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #005fa3;
+  }
+  
+  .login-link {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .login-link a {
+    color: #0077cc;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-box {
+    position: fixed;
+    bottom: 0; /* Align to the bottom */
+    width: 100%;
+    left: 0;
+    right: 0;
+    background-color: #ddd; /* Grey background */
+    padding: 0.1px 1px; /* Padding for top and bottom */
+    text-align: center; /* Center the text */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  h1{
+    font-size: 54px;
+    font-family:'Segoe UI';
+    color: #3d3d3d;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .login-box {
+    border: 3px solid #ccc;
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    margin-bottom: 30px; /* Space between the login box and footer */
+  }
+
+  .msg {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .register-link {
+    font-size: 15px;
+    text-align: center;
+  }
+  
+  .security {
+    text-align: center;
+    font-size: 14px;
+    color: #dd2727;
+  }
