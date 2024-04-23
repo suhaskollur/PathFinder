@@ -22,7 +22,10 @@ function StudentLogin() {
         e.preventDefault();
         try {
             const response = await axios.post('/student/login', formData);  // Updated API endpoint
-            localStorage.setItem('token', response.data.token);
+            const token = response.data.token;
+
+            localStorage.setItem('token', token);
+            
             alert('Login successful!');
 
             navigate('/dashboard');

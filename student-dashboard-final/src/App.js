@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import StudentRegistration from './components/Student/StudentRegistration';
 import StudentLogin from './components/Student/StudentLogin';
 import StudentDashboard from './components/Student/StudentDashboard';
+import StudentCourses from './components/Student/StudentCourses';
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
           <Route path="/login" element={<StudentLogin />} />
           {/* Private Route for Student Dashboard (You can implement authentication here later) */}
           <Route path="/dashboard" element={<StudentDashboard />} />
+          <Route path="/courses" element={<StudentCourses />} />
           <Route path="*" element={<Navigate to="/login" />} />
+          
         </Routes>
 
 

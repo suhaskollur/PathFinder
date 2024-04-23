@@ -11,8 +11,8 @@ function StudentDashboard() {
                 {/* Course Card */}
                 <div className="dashboard-card">
                     <h2>My Courses</h2>
-                    <p>You are enrolled in 3 courses.</p>
-                    <Link to="/courses">View Courses</Link>
+                    <p>View the Courses you have Enrolled.</p>
+                    <Link to="/courses" className="btn">View Courses</Link>
                 </div>
 
                 {/* Grades Card */}
