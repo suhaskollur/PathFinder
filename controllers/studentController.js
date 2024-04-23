@@ -65,7 +65,7 @@ exports.setupProfile = async (req, res) => {
     const db = await connectDatabase();
 
     // Insert profile details into the Profile table
-    await db.query('INSERT INTO Profile (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    await db.query('INSERT INTO StudentProfile (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
       netId,
       profileData.first_name,
       profileData.last_name,
@@ -89,6 +89,7 @@ exports.setupProfile = async (req, res) => {
   }
 };
 
+
 exports.getProfileByNetId = async (req, res) => {
   const { netId } = req.student; // Get the netId from the authenticated student
 
@@ -96,7 +97,7 @@ exports.getProfileByNetId = async (req, res) => {
     const db = await connectDatabase();
 
     // Query the Profile table for the profile details based on the net_id from the students table
-    const [profile] = await db.query('SELECT * FROM Profile WHERE net_id = ?', [netId]);
+    const [profile] = await db.query('SELECT * FROM StudentProfile WHERE net_id = ?', [netId]);
 
     // Check if profile exists
     if (profile.length === 0) {

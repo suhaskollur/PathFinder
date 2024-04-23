@@ -2,7 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { registerStudent, loginStudent, logoutStudent, setupProfile, getProfileByNetId } = require('../controllers/studentController');
+const { setupProfile } = require('../controllers/studentController');
+const { registerStudent, loginStudent, logoutStudent, getProfileByNetId } = require('../controllers/studentController');
 const { authenticateStudent } = require('../middlewares/authMiddleware');
 
 // Register a new student
@@ -15,7 +16,7 @@ router.post('/login', loginStudent);
 router.post('/logout',authenticateStudent, logoutStudent);
 
 // Setup profile for a student
-router.post('/profile/setup', authenticateStudent, setupProfile);
+router.post('/setup-profile', authenticateStudent, setupProfile);
 
 // Get profile details for a student
 router.get('/profile', authenticateStudent, getProfileByNetId);
