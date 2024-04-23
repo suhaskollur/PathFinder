@@ -1,18 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import '../../Dashstyles.css'; 
+import { Link, useNavigate } from 'react-router-dom';
+import '../../Dashstyles.css';
 
 function StudentDashboard() {
+
+    const navigate = useNavigate(); // Initialize useNavigate
+
+    const handleEnrollClick = () => {
+        console.log("Enroll button clicked"); // Check if this logs when the button is clicked
+        navigate('/enrollment'); 
+    };
+    
+
     return (
         <div className="dashboard-container">
-            <h1 className="dashboard-title">Dashboard</h1>
+            <div className="header">
+                <h1 className="dashboard-title">Student Dashboard</h1>
+                <Link to="/logout" className="dashboard-button logout-btn">Logout</Link>
+            </div>
 
             <div className="dashboard-cards">
                 {/* Course Card */}
                 <div className="dashboard-card">
                     <h2>My Courses</h2>
                     <p>View the Courses you have Enrolled.</p>
-                    <Link to="/courses" className="btn">View Courses</Link>
+                    <Link to="/courses" className="dashboard-button">View Courses</Link>
                 </div>
 
                 {/* Grades Card */}
@@ -22,18 +34,17 @@ function StudentDashboard() {
                     <Link to="/grades">View Grades</Link>
                 </div>
 
+            {/* Enrollment Card */}
+            <div className="dashboard-card">
+                <h2>Enroll in a Course</h2>
+                <button onClick={handleEnrollClick} className="dashboard-button">Enroll</button>
+            </div>
+
                 {/* Profile Card */}
                 <div className="dashboard-card">
                     <h2>Profile</h2>
                     <p>Update your profile information.</p>
                     <Link to="/profile">Edit Profile</Link>
-                </div>
-
-                {/* Logout Card */}
-                <div className="dashboard-card logout-card">
-                    <h2>Logout</h2>
-                    <p>Logout from your account.</p>
-                    <Link to="/logout">Logout</Link>
                 </div>
             </div>
 

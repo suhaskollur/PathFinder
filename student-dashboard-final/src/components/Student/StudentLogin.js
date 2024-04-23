@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../../axiosConfig';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 import '../../styles.css';  // Correct the import path
 
@@ -11,7 +11,7 @@ function StudentLogin() {
         password: '',
     });
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,7 +25,7 @@ function StudentLogin() {
             const token = response.data.token;
 
             localStorage.setItem('token', token);
-            
+
             alert('Login successful!');
 
             navigate('/dashboard');
@@ -37,40 +37,43 @@ function StudentLogin() {
 
     return (
         <>
-        <h1>PathFinder</h1>
-        <div className="login-box">
-            <h2>Student Login</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="netId"
-                    placeholder="Net ID"
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                    required
-                />
-                <button type="submit">Login</button>
-                
-                <div className='msg'><p>Forgot your NetID or password?</p>
-                    <p>First-time users, activate your NetID.</p>
-                   <p> Need more help?</p></div>
+            <h1>PathFinder</h1>
+            <div className="login-box">
+                <h2>Student Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        name="netId"
+                        placeholder="Net ID"
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        onChange={handleChange}
+                        required
+                    />
+                    <button type="submit">Login</button>
 
-                <div className='security'>
-                <p>For security reasons, please <b>Log Out</b> and exit your web browser</p>
-                <p>when you are done accessing services that require authentication!</p>
-                </div>
-            </form>
-        </div>
-        <div className="register-link">
-          <p><i>New User? </i><Link to="/register">Register</Link></p>
-        </div>
-        {/* <p><b>Ensure proper security — keep your password a secret</b></p> */}
+                    <div className='msg'><p>Forgot your NetID or password?</p>
+                        <p><i>First-time users, activate your NetID.</i></p>
+                        <p><i>Need more help?</i></p>
+                        <div className="register-link">
+                            <p><i>New User? </i><Link to="/register">Register</Link></p>
+                        </div>
+                        <p><b>Ensure proper security — keep your password a secret</b></p>
+                    </div>
+
+                    <div className='security'>
+                        <p>For security reasons, please <b>Log Out</b> and exit your web browser</p>
+                        <p>when you are done accessing services that require authentication!</p>
+                    </div>
+                </form>
+            </div>
+
+            {/* <p><b>Ensure proper security — keep your password a secret</b></p> */}
         </>
     );
 }
