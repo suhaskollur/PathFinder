@@ -23,15 +23,22 @@ function StudentDashboard() {
                 {/* Course Card */}
                 <div className="dashboard-card">
                     <h2>My Courses</h2>
-                    <p>View the Courses you have Enrolled.</p>
+                    <p>View the Courses you have Enrolled</p>
                     <Link to="/courses" className="dashboard-button">View Courses</Link>
                 </div>
 
                 {/* Grades Card */}
                 <div className="dashboard-card">
                     <h2>Grades</h2>
-                    <p>Your average grade is 85%.</p>
+                    <p>View your Grades</p>
                     <Link to="/grades">View Grades</Link>
+                </div>
+
+                {/* Assignments Card */}
+                <div className="dashboard-card">
+                    <h2>Assignments</h2>
+                    <p>View your Assignments</p>
+                    <Link to="/assignments">View Assignments</Link>
                 </div>
 
             {/* Enrollment Card */}
@@ -43,8 +50,9 @@ function StudentDashboard() {
                 {/* Profile Card */}
                 <div className="dashboard-card">
                     <h2>Profile</h2>
-                    <p>Update your profile information.</p>
-                    <Link to="/profile">Edit Profile</Link>
+                    <p>Update your profile information</p>
+                    <Link to="/setup-profile" className="dashboard-button">Edit Profile</Link> &nbsp;
+                    <Link to="/profile" className="dashboard-button">View Profile</Link>
                 </div>
             </div>
 

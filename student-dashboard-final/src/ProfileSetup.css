@@ -1,0 +1,62 @@
+.profile-setup-container {
+    max-width: 65%;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden; /* Prevents horizontal scrollbar */
+}
+
+.profile-setup-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.profile-setup-form {
+    display: flex;
+    flex-wrap: wrap; /* Wrap elements to next line if necessary */
+    justify-content: center; /* Center elements horizontally */
+    align-items: center; /* Center elements vertically */
+}
+
+.profile-setup-input {
+    width: calc(100% - 4px); /* Adjust the width as needed */
+    margin-bottom: 11px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Include padding and border in element's total width */
+}
+
+.profile-setup-input:focus {
+    border-color: #007bff;
+}
+
+.profile-setup-button {
+    width: calc(100% - 24px); /* Adjust the width as needed */
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-setup-button:hover {
+    background-color: #0056b3;
+}
+
+.profile-setup-input-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-setup-input-group .profile-setup-input {
+    width: calc(50% - 10px); /* Adjust width of inputs */
+}

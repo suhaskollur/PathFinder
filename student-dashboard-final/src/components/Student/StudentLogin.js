@@ -3,7 +3,7 @@ import axios from '../../axiosConfig';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-import '../../styles.css';  // Correct the import path
+import '../../styles.css';
 
 function StudentLogin() {
     const [formData, setFormData] = useState({

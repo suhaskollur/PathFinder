@@ -5,6 +5,8 @@ import StudentLogin from './components/Student/StudentLogin';
 import StudentDashboard from './components/Student/StudentDashboard';
 import StudentCourses from './components/Student/StudentCourses';
 import StudentEnrollment from './components/Student/StudentEnrollment'; // Import StudentEnrollment
+import ProfileSetup from './components/Student/ProfileSetup'; // Import ProfileSetup
+import ProfileDetails from './components/Student/ProfileDetails'; // Import ProfileDetails
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/dashboard" element={<StudentDashboard />} />
           <Route path="/courses" element={<StudentCourses />} />
           <Route path="/enrollment" element={<StudentEnrollment />} />
+          <Route path="/setup-profile" element={<ProfileSetup />} /> {/* Add ProfileSetup route */}
+          <Route path="/profile" element={<ProfileDetails />} /> {/* Add ProfileDetails route */}
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
 
