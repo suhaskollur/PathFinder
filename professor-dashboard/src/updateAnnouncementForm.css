@@ -1,0 +1,12 @@
+.announcement-card {
+    position: relative;
+    /* other styles for the card */
+  }
+  
+  .update-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    /* other styles for the button */
+  }
+  

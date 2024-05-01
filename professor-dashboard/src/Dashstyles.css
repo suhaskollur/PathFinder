@@ -1,0 +1,128 @@
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0px 30px 10px;
+    padding: 70px;
+    background-color: #f4f6f9;
+}
+
+.dashboard-title {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+    font-weight: 700;
+}
+
+.dashboard-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.dashboard-card {
+    flex: 0 0 calc(30% - 30px); /* Reduced width and adjusted gap */
+    border-radius: 15px;
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h2 {
+    font-size: 1.8rem; /* Slightly reduced font size */
+    margin-bottom: 20px; /* Reduced margin */
+    color: #444;
+    font-weight: 600;
+}
+
+
+.dashboard-card p {
+    margin-bottom: 25px;
+    color: #666;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+.dashboard-card a {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #0077cc;
+    color: #ffffff;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dashboard-card a:hover {
+    background-color: #005fa3;
+}
+
+.footer-box {
+    margin-top: 80px;
+    padding: 20px 0;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    color: #888;
+    font-size: 1rem;
+}
+
+.footer-box p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.dashboard-button {
+    display: inline-block;
+    padding: 10px 20px; /* Adjusted padding for a smaller button */
+    margin-top: 15px; /* Reduced margin */
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dashboard-button:hover {
+    background-color: #005fa3;
+    transform: translateY(-2px);
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between; /* Aligns items to the ends */
+    align-items: center; /* Vertically aligns items to the center */
+    margin-bottom: 50px;
+}
+
+.logout-btn {
+    background-color: #d9534f; /* Danger color for logout */
+    color: #ffffff; /* Text color */
+    padding: 10px 20px; /* Adjusted padding for the button */
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c; /* Darker shade for hover */
+}

@@ -1,0 +1,115 @@
+/* .courses-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .courses-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 20px;
+  } */
+
+  .courses-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center; /* Center the title text */
+  }
+  
+  /* Add a class for the title for specific styling */
+  .course-title {
+    font-size: 2em; /* Large font size for the title */
+    margin-top: 0; /* Remove top margin to align to the top */
+    padding-top: 20px; /* Add padding to give some space from the top of the page */
+  }
+  
+  .courses-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    justify-content: center;
+  }
+  
+  .course-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 300px;
+    cursor: pointer;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .course-info {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .course-code {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #3498db;
+    margin-bottom: 15px;
+    display: block;
+  }
+  
+  .course-name {
+    font-size: 1.5rem;
+    color: #555;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: 1024px) {
+    .course-card {
+      width: calc(50% - 20px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .course-card {
+      width: 100%;
+    }
+  }
+
+/* 
+  .courses-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.courses-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.course-card {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+}
+
+.course-card h3 {
+    color: #333;
+}
+
+.course-card p {
+    color: #666;
+} */

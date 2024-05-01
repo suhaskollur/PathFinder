@@ -1,0 +1,13 @@
+.course-dashboard {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch; 
+    gap: 20px;
+  }
+  
