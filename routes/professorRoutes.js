@@ -7,8 +7,13 @@ const router = express.Router();
 const { registerProfessor, 
         loginProfessor, 
         logoutProfessor, 
+        setupprofessorprofile,
         getProfessorProfile,
-        updateProfessorProfile} = require('../controllers/professorController');
+        updateProfessorProfile,
+        createAssignment, 
+        postAnnouncement,
+        updateAnnouncement,
+        getAnnouncements} = require('../controllers/professorController');
 
 const { authenticateProfessor } = require('../middlewares/authMiddleware');
 
@@ -18,8 +23,20 @@ router.post('/login', loginProfessor);
 
 router.post('/logout',authenticateProfessor, logoutProfessor);
 
+router.post('/profile/setup', authenticateProfessor, setupprofessorprofile);
+
 router.get('/profile', authenticateProfessor, getProfessorProfile);
 
 router.put('/profile', authenticateProfessor, updateProfessorProfile);
+
+router.post('/:courseId/announcements', postAnnouncement)
+
+router.post('/:courseId/assignments', createAssignment)
+
+router.put('/announcements/:announcementId', updateAnnouncement)
+
+
+router.get('/:courseId/announcements', getAnnouncements);
+
 
 module.exports = router;

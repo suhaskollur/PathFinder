@@ -9,12 +9,15 @@ const professorRoutes = require('./routes/professorRoutes');
 const cors = require('cors');
 const path = require('path');
 
+
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// <<<<<<< Updated upstream
 // Serve frontend files
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(express.static(path.join(__dirname + '/professor-dashboard/public')));
+
 
 // Middleware
 app.use(express.json());
@@ -41,7 +44,7 @@ getCourses()
     console.error('Error:', error);
   });
 
-// Add this at the end to handle any other routes
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+  res.sendFile(path.join(__dirname + '/professor-dashboard/public/index.html'));
 });

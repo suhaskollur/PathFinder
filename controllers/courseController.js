@@ -117,8 +117,7 @@ exports.createOrFindCourse = async (req, res) => {
   }
 };
 
-
-
+// TRIAL RETRIEVING PROFESSORS FOR SPECIFIC COURSES
 
 exports.getCoursesForProfessor = async (req, res) => {
   try {
@@ -137,11 +136,11 @@ exports.getCoursesForProfessor = async (req, res) => {
     const fullName = `${professor[0].first_name} ${professor[0].last_name}`;
 
     // Query the courses for the professor using the full name
-    const [courses] = await db.query('SELECT id, course_id, course_instructor, course_credits FROM course_creation WHERE course_instructor = ?', [fullName]);
+    const [courses] = await db.query('SELECT * FROM combined_courses WHERE course_instructor = ?', [fullName]);
 
     // Check if courses are found for the professor
     if (courses.length === 0) {
-      return res.status(404).json({ message: 'Courses not found for the professor' });
+      return res.status(404).json({ message: 'No courses found for this professor' });
     }
 
     // Return the courses found for the professor
@@ -152,80 +151,52 @@ exports.getCoursesForProfessor = async (req, res) => {
   }
 };
 
-// exports.updateCourseDetails = async (req, res) => {
-//   try {
-//     const db = await connectDatabase();
-//     const courseId = req.params.courseId;
-//     const updatedCourseDetails = req.body;
 
-//     // Start a transaction
-//     // await db.beginTransaction();
-
-//     // Update the course details in the 'courses' table
-//     const resultCourses = await db.query('UPDATE courses SET course_code = ?, course_name = ?, course_description = ? WHERE id = ?', 
-//     [updatedCourseDetails, courseId]);
-
-//     // Update the course details in the 'course_creation' table
-//     const resultCourseCreation = await db.query('UPDATE course_creation SET course_instructor = ?, course_credits = ? WHERE course_id = ?', [updatedCourseDetails, courseId]);
-
-//     // Commit the transaction if both updates were successful
-//     // await db.commit();
-
-//     // Check if both updates were successful
-//     if (resultCourses.affectedRows === 0 || resultCourseCreation.affectedRows === 0) {
-//       // If any of the updates failed, rollback the transaction
-//       await db.rollback();
-//       return res.status(404).json({ message: 'Course not found' });
-//     }
-
-//     // Return a success message
-//     return res.json({ message: 'Course details updated successfully' });
-//   } catch (error) {
-//     // If an error occurs, rollback the transaction and handle the error
-//     console.error('Error updating course details:', error);
-//     // await db.rollback();
-//     return res.status(500).json({ message: 'Internal server error' });
-//   }
-// };
 
 
 
 exports.updateCourseDetails = async (req, res) => {
-  const db = await connectDatabase();
-  const courseId = parseInt(req.params.courseId);
-
-  const { course_code, course_name, course_description, course_instructor, course_credits } = req.body;
-
   try {
-    // Update courses table
-    const updateCoursesQuery = `
-            UPDATE courses 
-            SET 
-                course_code = ?, 
-                course_name = ?, 
-                course_description = ? 
-            WHERE 
-                id = ?`;
+    // Assuming connectDatabase is a function that returns a promise for a database connection
+    const db = await connectDatabase();
+    
+    // Extract courseId from the request parameters
+    const { courseId } = req.params;
+    
+    // Destructure the course details from the request body
+    const {
+      course_code,
+      course_name,
+      course_description,
+      course_instructor,
+      course_credits
+    } = req.body;
 
-    await db.query(updateCoursesQuery, [course_code, course_name, course_description, courseId]);
+    // Update the course details in the database
+    const [result] = await db.query(`
+      UPDATE combined_courses 
+      SET 
+        course_code = ?, 
+        course_name = ?, 
+        course_description = ?, 
+        course_instructor = ?, 
+        course_credits = ? 
+      WHERE 
+        id = ?
+    `, [course_code, course_name, course_description, course_instructor, course_credits, courseId]);
 
-    // Update course_creation table
-    const updateCourseCreationQuery = `
-            UPDATE course_creation 
-            SET 
-                course_instructor = ?, 
-                course_credits = ? 
-            WHERE 
-                course_id = ?`;
+    // Check the result of the update operation
+    if (result.affectedRows === 0) {
+      // No rows affected, hence course not found
+      return res.status(404).json({ message: 'Course not found' });
+    }
 
-    await db.query(updateCourseCreationQuery, [course_instructor, course_credits, courseId]);
+    // Successfully updated the course
+    res.json({ message: 'Course updated successfully' });
 
-    res.status(200).json({ message: 'Course details updated successfully' });
   } catch (error) {
+    // Log the error and send a server error response
     console.error('Error updating course details:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
-
-
-
 };

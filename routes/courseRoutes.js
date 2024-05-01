@@ -50,6 +50,7 @@ router.get('/enrolled-courses', authenticateStudent, async (req, res) => {
 });
 
 console.log(createOrFindCourse);
+
 router.post('/professors/courses', createOrFindCourse);
 
 router.get('/retrieve', authenticateProfessor, getCoursesForProfessor);
