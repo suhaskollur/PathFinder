@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../../featureCard.css'; // Make sure the path is correct for your project structure
+import '../../featureCard.css'; 
 
 const CourseFeatureDashboard = () => {
   const { courseId } = useParams();

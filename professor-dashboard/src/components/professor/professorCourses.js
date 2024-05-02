@@ -15,7 +15,7 @@ function CourseForm() {
             course_name: courseName,
             course_description: courseDescription,
             course_instructor: courseInstructor,
-            course_credits: parseInt(courseCredits, 10) // Ensure credits are sent as an integer
+            course_credits: parseInt(courseCredits, 10) 
         };
 
         try {
@@ -29,14 +29,13 @@ function CourseForm() {
 
             if (response.ok) {
                 alert('Course created or updated successfully!');
-                // Optionally reset form fields after successful submission
                 setCourseCode('');
                 setCourseName('');
                 setCourseDescription('');
                 setCourseInstructor('');
                 setCourseCredits('');
             } else {
-                const error = await response.text(); // Fetching text instead of json in case of non-json response
+                const error = await response.text(); 
                 alert('Failed to create or update course: ' + error);
             }
         } catch (error) {

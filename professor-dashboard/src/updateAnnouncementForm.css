@@ -3,56 +3,56 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   padding: 2rem;
-  max-width: 500px; /* Increased width for a wider form */
-  margin: 40px auto; /* Center the form on the page vertically and horizontally */
+  max-width: 500px; 
+  margin: 40px auto; 
   display: flex;
   flex-direction: column;
-  align-items: center; /* Ensures that all children align in the center */
+  align-items: center; 
 }
 
 
 .update-announcement-form h1 {
-  font-size: 1.5rem; /* Larger font size for the header */
-  color: #333; /* Darker shade for better readability */
-  margin-bottom: 1rem; /* Space below the header */
+  font-size: 1.5rem; 
+  color: #333; 
+  margin-bottom: 1rem; 
 }
 
 .update-announcement-form input[type="text"],
 .update-announcement-form textarea {
-  width: 100%; /* Full width of the form */
-  padding: 10px; /* More padding for better text visibility */
-  margin-bottom: 1rem; /* Space between form elements */
-  border: 1px solid #ccc; /* Subtle border */
-  border-radius: 5px; /* Rounded corners */
-  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  width: 100%; 
+  padding: 10px; 
+  margin-bottom: 1rem;
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  box-sizing: border-box; 
 }
 
 .update-announcement-form textarea {
-  height: 150px; /* Increase height for more text */
-  resize: none; /* Disable resizing */
+  height: 150px; 
+  resize: none;
 }
 
 .update-announcement-form button {
-  padding: 10px 15px; /* More padding for a larger button */
-  background-color: #0056b3; /* Primary button color */
-  color: white; /* Text color */
-  font-size: 1rem; /* Readable font size */
+  padding: 10px 15px; 
+  background-color: #0056b3; 
+  color: white; 
+  font-size: 1rem;
   border: none;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 5px; 
   cursor: pointer;
-  transition: background-color 0.2s ease; /* Smooth transition for hover effect */
+  transition: background-color 0.2s ease; 
 }
 
 .update-announcement-form button:hover {
-  background-color: #003974; /* Darker shade on hover */
+  background-color: #003974; 
 }
 
-/* Additional styles for vertical alignment */
+
 .update-announcement-form label {
-  font-weight: bold; /* Make labels bold */
-  margin-bottom: 5px; /* Space between label and input */
+  font-weight: bold; 
+  margin-bottom: 5px; 
 }
 
 .update-announcement-form .form-group {
-  margin-bottom: 1.5rem; /* Space between form groups */
+  margin-bottom: 1.5rem; 
 }

@@ -17,14 +17,12 @@ const UpdateCourseDetailsForm = () => {
   });
 
   useEffect(() => {
-    // Fetch the current course data to pre-populate the form
     const fetchCourseData = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/retrieve/${courseId}`);
-        setCourseData(response.data); // Adjust this according to the response format
+        setCourseData(response.data); 
       } catch (error) {
         console.error('Error fetching course data:', error);
-        // Handle error, e.g. redirecting to login or showing a message
       }
     };
 
@@ -41,7 +39,7 @@ const UpdateCourseDetailsForm = () => {
     try {
       await axios.put(`http://localhost:3000/api/courses/${courseId}`, courseData);
       alert('Course updated successfully');
-      navigate('/courses'); // Redirect to the course list or dashboard
+      navigate('/courses'); 
     } catch (error) {
       console.error('Error updating course:', error);
       alert('Failed to update course.');

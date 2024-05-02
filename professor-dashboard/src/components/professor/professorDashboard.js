@@ -3,17 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../../Dashstyles.css';
 
 function ProfessorDashboard() {
-    // Initialize useNavigate
     const navigate = useNavigate(); 
 
 
     const handleProfileClick = () => {
-        console.log("Profile button clicked"); // Check if this logs when the button is clicked
+        console.log("Profile button clicked"); 
         navigate('/profile'); 
     };
     
     const handleCourseClick = () => {
-        console.log("Courses button clicked"); // Check if this logs when the button is clicked
+        console.log("Courses button clicked"); 
         navigate('/courses'); 
     };
 

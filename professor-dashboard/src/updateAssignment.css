@@ -1,7 +1,7 @@
 .create-assignment-container {
     max-width: 500px;
     margin: 40px auto;
-    padding: 30px; /* Equal padding on all sides */
+    padding: 30px; 
     border: 2px solid #007bff;
     border-radius: 10px;
     background-color: #f8f9fa;
@@ -11,17 +11,17 @@
 .create-assignment-form {
     display: flex;
     flex-direction: column;
-    width: 100%; /* Ensures the form uses the full width of its container */
+    width: 100%; 
 }
 
 .create-assignment-form .form-input,
 .create-assignment-form .form-textarea {
     padding: 12px;
-    margin-bottom: 20px; /* Maintain vertical spacing between fields */
+    margin-bottom: 20px; 
     border: 1px solid #ced4da;
     border-radius: 5px;
     background-color: #ffffff;
-    width: calc(100% - 24px); /* Width adjusted for padding */
+    width: calc(100% - 24px);
 }
 
 .create-assignment-form .form-textarea {

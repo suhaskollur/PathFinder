@@ -1,11 +1,11 @@
 .create-assignment-container {
-    max-width: 500px; /* Adjust width for better layout */
-    margin: 40px auto; /* Center the form with more vertical space */
-    padding: 30px; /* Increase padding for a more spacious layout */
-    border: 2px solid #007bff; /* Stronger border with a blue color */
-    border-radius: 10px; /* More pronounced rounded corners for a modern look */
-    background-color: #f8f9fa; /* Light grey background for soft contrast */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+    max-width: 500px; 
+    margin: 40px auto; 
+    padding: 30px; 
+    border: 2px solid #007bff; 
+    border-radius: 10px; 
+    background-color: #f8f9fa; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .create-assignment-form {
@@ -15,37 +15,37 @@
 
 .create-assignment-form .form-input,
 .create-assignment-form .form-textarea {
-    padding: 12px; /* More padding for input comfort */
-    margin-bottom: 20px; /* Increased space between inputs */
-    border: 1px solid #ced4da; /* Subtle border color */
-    border-radius: 5px; /* Soften the input corners */
-    background-color: #ffffff; /* White background for inputs */
+    padding: 12px;
+    margin-bottom: 20px; 
+    border: 1px solid #ced4da; 
+    border-radius: 5px; 
+    background-color: #ffffff; 
 }
 
 .create-assignment-form .form-textarea {
-    height: 200px; /* Provide more space for detailed descriptions */
-    resize: vertical; /* Allow vertical resizing only */
+    height: 200px; 
+    resize: vertical; 
 }
 
 .create-assignment-form .form-input:focus,
 .create-assignment-form .form-textarea:focus {
-    border-color: #80bdff; /* Blue border on focus for better visibility */
-    outline: none; /* Remove default focus outline */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle blue shadow on focus */
+    border-color: #80bdff; 
+    outline: none; 
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
 }
 
 .create-assignment-form .form-button {
     padding: 10px 20px;
-    background-color: #007bff; /* Vivid blue button background */
+    background-color: #007bff; 
     color: white;
-    font-size: 16px; /* Larger font for readability */
+    font-size: 16px; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; /* Smooth background color transition and transform on hover */
+    transition: background-color 0.3s, transform 0.2s; 
 }
 
 .create-assignment-form .form-button:hover {
-    background-color: #0056b3; /* Darker shade on hover for effect */
-    transform: translateY(-2px); /* Slight raise to imply button press */
+    background-color: #0056b3; 
+    transform: translateY(-2px); 
 }

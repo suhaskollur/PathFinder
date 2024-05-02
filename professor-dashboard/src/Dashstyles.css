@@ -22,7 +22,7 @@
 }
 
 .dashboard-card {
-    flex: 0 0 calc(30% - 30px); /* Reduced width and adjusted gap */
+    flex: 0 0 calc(30% - 30px); 
     border-radius: 15px;
     padding: 15px;
     background-color: #ffffff;
@@ -37,8 +37,8 @@
 }
 
 .dashboard-card h2 {
-    font-size: 1.8rem; /* Slightly reduced font size */
-    margin-bottom: 20px; /* Reduced margin */
+    font-size: 1.8rem; 
+    margin-bottom: 20px; 
     color: #444;
     font-weight: 600;
 }
@@ -84,8 +84,8 @@
 
 .dashboard-button {
     display: inline-block;
-    padding: 10px 20px; /* Adjusted padding for a smaller button */
-    margin-top: 15px; /* Reduced margin */
+    padding: 10px 20px; 
+    margin-top: 15px; 
     background-color: #0077cc;
     color: #fff;
     border: none;
@@ -106,15 +106,15 @@
 
 .header {
     display: flex;
-    justify-content: space-between; /* Aligns items to the ends */
-    align-items: center; /* Vertically aligns items to the center */
+    justify-content: space-between; 
+    align-items: center; 
     margin-bottom: 50px;
 }
 
 .logout-btn {
-    background-color: #d9534f; /* Danger color for logout */
-    color: #ffffff; /* Text color */
-    padding: 10px 20px; /* Adjusted padding for the button */
+    background-color: #d9534f; 
+    color: #ffffff; 
+    padding: 10px 20px; 
     border-radius: 5px;
     font-size: 1rem;
     font-weight: 600;
@@ -124,5 +124,5 @@
 }
 
 .logout-btn:hover {
-    background-color: #c9302c; /* Darker shade for hover */
+    background-color: #c9302c; 
 }

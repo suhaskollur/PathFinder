@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // Import useParams hook
-import '../../postAnnouncement.css'; // Ensure this is the correct path to your CSS file
+import { useParams } from 'react-router-dom'; 
+import '../../postAnnouncement.css';
 
 const PostAnnouncementForm = () => {
   const [title, setTitle] = useState('');
@@ -10,7 +10,6 @@ const PostAnnouncementForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Use the courseId in the API endpoint
     const endpoint = `http://localhost:3000/api/professors/${courseId}/announcements`;
 
     try {
@@ -41,7 +40,7 @@ const PostAnnouncementForm = () => {
           <input
             type="text"
             id="title"
-            className="form-input" // Add class for styling
+            className="form-input" 
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -51,13 +50,13 @@ const PostAnnouncementForm = () => {
           <label htmlFor="message">Message:</label>
           <textarea
             id="message"
-            className="form-textarea" // Add class for styling
+            className="form-textarea" 
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
           />
         </div>
-        <button type="submit" className="form-button">Post Announcement</button> {/* Add class for styling */}
+        <button type="submit" className="form-button">Post Announcement</button> 
       </form>
     </div>
   );

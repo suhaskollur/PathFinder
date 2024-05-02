@@ -10,7 +10,6 @@ import CourseFeatureDashboard from './components/professor/professorCourseFeatur
 import UpdateCourseForm  from './components/professor/professorUpdateCourse';
 import AnnouncementsDashboard from './components/professor/professorAnnouncementDash';
 import PostAnnouncementForm from './components/professor/professorPostAnnouncement';
-// import UpdateAnnouncementForm from './components/professor/professorUpdateAnnouncement';
 import ListAnnouncements from './components/professor/profListAnnouncement';
 import UpdateAnnouncementForm from './components/professor/professorUpdateAnnouncement';
 import AssignmentDashboard from './components/professor/professorAssignmentDash';

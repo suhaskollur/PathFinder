@@ -1,4 +1,4 @@
-/* courseFeatureDashboard.css */
+
 .features-dashboard {
     text-align: center;
     max-width: 1200px;
@@ -7,7 +7,7 @@
   }
   
   .features-dashboard h1 {
-    font-size: 2.5rem; /* Increase if you want a bigger header */
+    font-size: 2.5rem; 
     color: #333;
     margin-bottom: 30px;
   }
@@ -16,12 +16,12 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 30px; /* Increase gap for more space between cards */
+    gap: 30px; 
   }
   
   .feature-card {
-    width: calc(33% - 30px); /* Adjust width for three per row at full size */
-    padding: 20px; /* Increase padding for more internal space */
+    width: calc(33% - 30px); 
+    padding: 20px; 
     border: 1px solid #ccc;
     border-radius: 8px;
     background: #fff;
@@ -37,23 +37,23 @@
   }
   
   .feature-content {
-    margin-bottom: 15px; /* Increased spacing */
+    margin-bottom: 15px; 
   }
   
   .feature-card h2 {
-    font-size: 1.5rem; /* Bigger title font size */
+    font-size: 1.5rem; 
     margin-bottom: 0.75rem;
   }
   
   .feature-card p {
-    font-size: 1.2rem; /* Bigger description font size */
+    font-size: 1.2rem; 
     margin-bottom: 1.5rem;
     word-wrap: break-word;
   }
   
   .feature-card button {
-    padding: 12px 20px; /* Bigger button */
-    font-size: 1.2rem; /* Bigger button text */
+    padding: 12px 20px;
+    font-size: 1.2rem; 
     background-color: #007bff;
     color: white;
     border: none;
@@ -70,20 +70,20 @@
   
   @media (max-width: 1024px) {
     .feature-card {
-      width: calc(50% - 30px); /* Two cards per row on medium screens */
+      width: calc(50% - 30px); 
     }
   }
   
   @media (max-width: 768px) {
     .feature-card {
-      width: 100%; /* Full width on small screens */
+      width: 100%; 
     }
   }
   
-  /* Additional media query for larger screens if needed */
+
   @media (min-width: 1200px) {
     .feature-card {
-      width: calc(25% - 30px); /* Four cards per row on larger screens */
+      width: calc(25% - 30px); 
     }
   }
   

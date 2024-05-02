@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../../announcementsprof.css'; // Make sure your CSS path is correct
+import '../../announcementsprof.css'; 
 
 function AnnouncementsDashboard() {
     const navigate = useNavigate();
-    const { courseId } = useParams(); // Assuming courseId is passed via route parameters
+    const { courseId } = useParams(); 
 
     // Navigation handlers
     const handlePostAnnouncementClick = () => {

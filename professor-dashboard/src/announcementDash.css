@@ -9,8 +9,8 @@
   }
 
   .announcements-container {
-    max-height: calc(100vh - 100px); /* Adjust the 100px to account for any headers or footers */
-    overflow-y: auto; /* This will enable scrolling for the y-axis if the content overflows */
+    max-height: calc(100vh - 100px); 
+    overflow-y: auto; 
     padding: 20px;
   }
   
