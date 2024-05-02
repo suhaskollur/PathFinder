@@ -2,35 +2,20 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../../featureCard.css'; // Make sure the path is correct for your project structure
 
-const CourseFeatureDashboard = () => {
+const AssignmentDashboard = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
 
   const features = [
     { 
-      title: "Update Course Details",
-      description: "Modify the details of the course.",
-      path: `/course/update/${courseId}`
+      title: "Post an Assignment",
+      description: "Create an Assignment for Students",
+      path: `/course/${courseId}/assignments/post`
     },
     { 
-      title: "Announcements",
-      description: "View and publish announcements.",
-      path: `/course/${courseId}/announcements`
-    },
-    { 
-      title: "Assignments",
-      description: "Manage course assignments.",
-      path: `/course/${courseId}/assignments`
-    },
-    { 
-      title: "Student List",
-      description: "View the list of students enrolled.",
-      path: `/students/${courseId}`
-    },
-    { 
-      title: "Grades",
-      description: "Access and submit student grades.",
-      path: `/grades/${courseId}`
+      title: "List of Assignments",
+      description: "View all Assignments posted for Students",
+      path: `/course/${courseId}/assignments/view`
     }
   ];
 
@@ -40,7 +25,7 @@ const CourseFeatureDashboard = () => {
 
   return (
     <div className="features-dashboard">
-      <h1>Course Dashboard Features</h1>
+      <h1>Assignment Dashboard</h1>
       <div className="features-grid">
         {features.map((feature, index) => (
           <div key={index} className="feature-card">
@@ -58,4 +43,4 @@ const CourseFeatureDashboard = () => {
   );
 };
 
-export default CourseFeatureDashboard;
+export default AssignmentDashboard;

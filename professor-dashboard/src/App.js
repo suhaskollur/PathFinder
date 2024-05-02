@@ -12,6 +12,11 @@ import AnnouncementsDashboard from './components/professor/professorAnnouncement
 import PostAnnouncementForm from './components/professor/professorPostAnnouncement';
 // import UpdateAnnouncementForm from './components/professor/professorUpdateAnnouncement';
 import ListAnnouncements from './components/professor/profListAnnouncement';
+import UpdateAnnouncementForm from './components/professor/professorUpdateAnnouncement';
+import AssignmentDashboard from './components/professor/professorAssignmentDash';
+import CreateAssignment from './components/professor/professorAssignmentpost';
+import ListAssignments from './components/professor/professorViewAssignments';
+import EditAssignment from './components/professor/professorUpdateAssignment';
 
 
 
@@ -31,9 +36,12 @@ function App() {
           <Route path="/course/update/:courseId" element={<UpdateCourseForm />} />
           <Route path="/course/:courseId/announcements" element={<AnnouncementsDashboard />} />
           <Route path="/course/:courseId/announcements/post" element={<PostAnnouncementForm />} />
-          {/* <Route path="/course/:courseId/announcements/update" element={<UpdateAnnouncementForm />} /> */}
           <Route path="/course/:courseId/announcements/list" element={<ListAnnouncements />} />
-
+          <Route path="/announcements/list/:announcementId/update" element={<UpdateAnnouncementForm />} />
+          <Route path="/course/:courseId/assignments" element={<AssignmentDashboard />} />
+          <Route path="/course/:courseId/assignments/post" element={<CreateAssignment />} />
+          <Route path="/course/:courseId/assignments/view" element={<ListAssignments/>} />
+          <Route path="/course/:courseId/assignments/:assignmentId/update" element={<EditAssignment/>} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
 

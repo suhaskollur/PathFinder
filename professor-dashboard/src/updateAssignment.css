@@ -1,0 +1,54 @@
+.create-assignment-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px; /* Equal padding on all sides */
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-assignment-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensures the form uses the full width of its container */
+}
+
+.create-assignment-form .form-input,
+.create-assignment-form .form-textarea {
+    padding: 12px;
+    margin-bottom: 20px; /* Maintain vertical spacing between fields */
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #ffffff;
+    width: calc(100% - 24px); /* Width adjusted for padding */
+}
+
+.create-assignment-form .form-textarea {
+    height: 200px;
+    resize: vertical;
+}
+
+.create-assignment-form .form-input:focus,
+.create-assignment-form .form-textarea:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.create-assignment-form .form-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 20px;
+}
+
+.create-assignment-form .form-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}

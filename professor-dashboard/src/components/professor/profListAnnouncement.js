@@ -31,7 +31,9 @@ const ListAnnouncements = () => {
     }, [courseId, navigate]);
 
   const handleUpdateClick = (announcementId) => {
-    navigate(`/update-announcement/${announcementId}`);
+    console.log(`Attempting to navigate to update page for announcement ID: ${announcementId}`);
+
+    navigate(`/announcements/list/${announcementId}/update`);
   };
 
   if (loading) {

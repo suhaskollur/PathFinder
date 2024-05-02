@@ -1,0 +1,91 @@
+.assignment-card {
+    position: relative;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.assignments-dashboard {
+    max-height: calc(100vh - 100px); /* Adjust the 100px to account for any headers or footers */
+    overflow-y: auto; /* Enables scrolling for the y-axis if content overflows */
+    padding: 20px;
+}
+
+.assignment-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.assignment-description {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    white-space: pre-wrap; /* Ensures that spacing and new lines are preserved */
+}
+
+.assignment-deadline {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 10px; /* Reduced margin for more compact view */
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the end */
+    gap: 10px; /* Adds space between buttons */
+}
+
+.button-edit, .button-delete {
+    position: absolute;
+    padding: 8px 16px;
+    margin: 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-edit {
+    right: 100px; /* Positioning adjust for separation */
+    bottom: 20px;
+    background-color: #007bff;
+    color: white;
+}
+
+.button-delete {
+    right: 20px;
+    bottom: 20px;
+    background-color: #dc3545; /* Red color for delete */
+    color: white;
+}
+
+.button-edit:hover {
+    background-color: #0056b3;
+}
+
+.button-delete:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    .assignment-card {
+        padding: 15px;
+    }
+
+    .button-edit, .button-delete {
+        right: 15px; /* Adjust both buttons to have the same right padding on smaller screens */
+        padding: 8px 16px; /* Slightly smaller buttons on small screens */
+    }
+
+    .button-edit {
+        right: 200px; /* Adjusting to keep some distance on smaller screens */
+    }
+    .button-container {
+        width: 100%; /* Full width to maintain layout on smaller screens */
+        justify-content: space-between; /* Space between buttons on smaller screens */
+    }
+}

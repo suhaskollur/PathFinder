@@ -13,7 +13,10 @@ const { registerProfessor,
         createAssignment, 
         postAnnouncement,
         updateAnnouncement,
-        getAnnouncements} = require('../controllers/professorController');
+        getAnnouncements,
+        getAssignments,
+        updateAssignment,
+        deleteAssignment} = require('../controllers/professorController');
 
 const { authenticateProfessor } = require('../middlewares/authMiddleware');
 
@@ -29,14 +32,21 @@ router.get('/profile', authenticateProfessor, getProfessorProfile);
 
 router.put('/profile', authenticateProfessor, updateProfessorProfile);
 
-router.post('/:courseId/announcements', postAnnouncement)
+router.post('/:courseId/announcements', postAnnouncement);
 
-router.post('/:courseId/assignments', createAssignment)
-
-router.put('/announcements/:announcementId', updateAnnouncement)
+router.put('/announcements/:announcementId', updateAnnouncement);
 
 
 router.get('/:courseId/announcements', getAnnouncements);
+
+
+router.post('/:combinedCourseId/assignments', createAssignment)
+
+router.get('/:combinedCourseId/assignments', getAssignments);
+
+router.put('/:combinedCourseId/assignments/:assignmentId', updateAssignment);
+
+router.delete('/:combinedCourseId/assignments/:assignmentId', deleteAssignment)
 
 
 module.exports = router;

@@ -151,56 +151,477 @@ exports.updateProfessorProfile = async (req, res) => {
 
 
 
+// exports.createAssignment = async (req, res) => {
+//   const courseId = req.params.courseId; // Extracting courseId from URL parameters
+//   const { assignment_title, assignment_description, assignment_deadline } = req.body;
+
+//   // Validate the input data
+//   if (!courseId || !assignment_title || !assignment_description || !assignment_deadline) {
+//       return res.status(400).json({ message: 'Missing required fields: courseId, title, description, and deadline are all required.' });
+//   }
+
+//   try {
+//       const db = await connectDatabase(); // Assumes connectDatabase is a function to connect to your DB
+
+//       // Fetch course details including the instructor's name by joining the courses table with the course_creation table
+//       const [courseDetails] = await db.query(`
+//           SELECT c.course_code, c.course_name, cc.course_instructor 
+//           FROM courses AS c
+//           JOIN course_creation AS cc ON c.id = cc.course_id
+//           WHERE c.id = ?`, [courseId]);
+
+
+//       if (!courseDetails || courseDetails.length === 0) {
+//           return res.status(404).json({ message: 'Course not found' });
+//       }
+
+
+//       const { course_code, course_name, course_instructor } = courseDetails[0];
+
+//       const insertResult = await db.query(
+//           'INSERT INTO professor_assignment (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+//           [
+//               courseId, 
+//               course_code, 
+//               course_name, 
+//               course_instructor, 
+//               assignment_title, 
+//               assignment_description, 
+//               assignment_deadline
+//           ]
+//       );
+
+
+//       return res.status(201).json({
+//           message: 'Assignment created successfully',
+//           assignmentId: insertResult.insertId
+//       });
+//   } catch (error) {
+//       console.error('Error when creating an assignment:', error);
+//       return res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
+// exports.createAssignment = async (req, res) => {
+//   const courseId = req.params.courseId; // From URL parameters
+//   const { assignment_title, assignment_description, assignment_deadline } = req.body;
+
+//   if (!courseId || !assignment_title || !assignment_description || !assignment_deadline) {
+//     return res.status(400).json({ message: 'Missing required fields.' });
+//   }
+
+//   try {
+//     const db = await connectDatabase();
+    
+//     // Assuming course creation data is required as per the design
+//     const query = `
+//       SELECT c.course_code, c.course_name, cc.course_instructor 
+//       FROM courses AS c
+//       JOIN course_creation AS cc ON c.id = cc.course_id
+//       WHERE c.id = ?`;
+
+//     const [courseDetails] = await db.query(query, [courseId]);
+
+//     if (!courseDetails || courseDetails.length === 0) {
+//       return res.status(404).json({ message: 'Course not found' });
+//     }
+
+//     const { course_code, course_name, course_instructor } = courseDetails[0];
+
+//     const insertResult = await db.query(`
+//       INSERT INTO professor_assignment 
+//       (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline)
+//       VALUES (?, ?, ?, ?, ?, ?, ?)`, [
+//         courseId, 
+//         course_code, 
+//         course_name, 
+//         course_instructor, 
+//         assignment_title, 
+//         assignment_description, 
+//         assignment_deadline
+//     ]);
+
+//     return res.status(201).json({
+//       message: 'Assignment created successfully',
+//       assignmentId: insertResult.insertId
+//     });
+
+//   } catch (error) {
+//     console.error('Error when creating an assignment:', error);
+//     return res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
+
+
+
+
+
+
+// exports.createAssignment = async (req, res) => {
+//   const combinedCourseId = req.params.combinedCourseId; // Extracting combinedCourseId from URL parameters
+//   const { assignment_title, assignment_description, assignment_deadline } = req.body;
+
+//   // Validate the input data
+//   if (!combinedCourseId || !assignment_title || !assignment_description || !assignment_deadline) {
+//     return res.status(400).json({ message: 'Missing required fields: combinedCourseId, title, description, and deadline are all required.' });
+//   }
+
+//   try {
+//     const db = await connectDatabase();
+    
+//     // Fetch combined course details to verify existence and get course_id
+//     const [combinedCourseDetails] = await db.query(`
+//       SELECT course_id, course_code, course_name, course_instructor 
+//       FROM combined_courses
+//       WHERE id = ?`, [combinedCourseId]);
+
+//     if (!combinedCourseDetails || combinedCourseDetails.length === 0) {
+//       return res.status(404).json({ message: 'Combined course not found' });
+//     }
+
+//     const { course_id, course_code, course_name, course_instructor } = combinedCourseDetails[0];
+
+//     // Now create the assignment for the fetched course_id
+//     const insertResult = await db.query(
+//       'INSERT INTO professor_assignment (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+//       [
+//         course_id, 
+//         course_code, 
+//         course_name, 
+//         course_instructor, 
+//         assignment_title, 
+//         assignment_description, 
+//         assignment_deadline
+//       ]
+//     );
+
+//     return res.status(201).json({
+//       message: 'Assignment created successfully for combined course',
+//       assignmentId: insertResult.insertId
+//     });
+//   } catch (error) {
+//     console.error('Error when creating an assignment:', error);
+//     return res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
+
+
+
+
+// exports.createAssignment = async (req, res) => {
+//   const combinedCourseId = req.params.combinedCourseId; // This should be the 'id' from combined_courses
+//   const { assignment_title, assignment_description, assignment_deadline } = req.body;
+
+//   // Validate the input data
+//   if (!combinedCourseId || !assignment_title || !assignment_description || !assignment_deadline) {
+//       return res.status(400).json({ message: 'Missing required fields: combinedCourseId, title, description, and deadline are all required.' });
+//   }
+
+//   try {
+//       const db = await connectDatabase(); 
+
+//       // Validate that the combined course exists
+//       const [courseDetails] = await db.query(`
+//           SELECT * FROM combined_courses WHERE id = ?`, [combinedCourseId]);
+
+//       if (!courseDetails || courseDetails.length === 0) {
+//           return res.status(404).json({ message: 'Combined course not found' });
+//       }
+
+//       // Extract data needed for the assignment creation
+//       const { course_id, course_code, course_name, course_instructor } = courseDetails[0];
+
+//       // Insert the new assignment into the professor_assignment table
+//       const insertResult = await db.query(`
+//           INSERT INTO professor_assignment 
+//           (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline)
+//           VALUES (?, ?, ?, ?, ?, ?, ?)`, [
+//               course_id, 
+//               course_code, 
+//               course_name, 
+//               course_instructor, 
+//               assignment_title, 
+//               assignment_description, 
+//               assignment_deadline
+//           ]);
+
+//       return res.status(201).json({
+//           message: 'Assignment created successfully',
+//           assignmentId: insertResult.insertId
+//       });
+//   } catch (error) {
+//       console.error('Error when creating an assignment:', error);
+//       return res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
+
+
+// exports.createAssignment = async (req, res) => {
+//   const combinedCourseId = req.params.combinedCourseId;
+//   const { assignment_title, assignment_description, assignment_deadline } = req.body;
+
+//   console.log("Received combinedCourseId:", combinedCourseId);
+//   console.log("Received body data:", req.body);
+
+//   if (!combinedCourseId || !assignment_title || !assignment_description || !assignment_deadline) {
+//     console.log("Validation error: Missing fields");
+//     return res.status(400).json({ message: 'Missing required fields: combinedCourseId, title, description, and deadline are all required.' });
+//   }
+
+//   try {
+//     const db = await connectDatabase();
+//     const [courseDetails] = await db.query(`SELECT * FROM combined_courses WHERE id = ?`, [combinedCourseId]);
+
+//     if (!courseDetails || courseDetails.length === 0) {
+//       console.log("No course details found for combinedCourseId:", combinedCourseId);
+//       return res.status(404).json({ message: 'Combined course not found' });
+//     }
+
+//     const { course_id, course_code, course_name, course_instructor } = courseDetails[0];
+//     const insertResult = await db.query(
+//       'INSERT INTO professor_assignment (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline) VALUES (?, ?, ?, ?, ?, ?, ?)',
+//       [course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline]
+//     );
+
+//     return res.status(201).json({
+//       message: 'Assignment created successfully',
+//       assignmentId: insertResult.insertId
+//     });
+//   } catch (error) {
+//     console.error('Error when creating an assignment:', error);
+//     return res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
+
+
+// exports.createAssignment = async (req, res) => {
+//   const combinedCourseId = req.params.combinedCourseId; // This is extracted from the URL path
+//   const { assignment_title, assignment_description, assignment_deadline } = req.body;
+
+//   if (!combinedCourseId || !assignment_title || !assignment_description || !assignment_deadline) {
+//     return res.status(400).json({ message: 'Missing required fields: combinedCourseId, title, description, and deadline are all required.' });
+//   }
+
+//   try {
+//     const db = await connectDatabase();
+    
+//     // Assuming you want to fetch something based on combinedCourseId
+//     const [courseDetails] = await db.query(`SELECT * FROM combined_courses WHERE id = ?`, [combinedCourseId]);
+
+//     if (!courseDetails || courseDetails.length === 0) {
+//       return res.status(404).json({ message: 'Combined course not found' });
+//     }
+
+//     // Extract details for the INSERT operation
+//     const { course_id, course_code, course_name, course_instructor } = courseDetails[0];
+
+//     const insertResult = await db.query(
+//       'INSERT INTO professor_assignment (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+//       [course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline]
+//     );
+
+//     return res.status(201).json({
+//       message: 'Assignment created successfully',
+//       assignmentId: insertResult.insertId
+//     });
+//   } catch (error) {
+//     console.error('Error when creating an assignment:', error);
+//     return res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
+
 exports.createAssignment = async (req, res) => {
-  const courseId = req.params.courseId; // Extracting courseId from URL parameters
+  const courseId = req.params.combinedCourseId; // Extract from URL parameters
   const { assignment_title, assignment_description, assignment_deadline } = req.body;
 
   // Validate the input data
   if (!courseId || !assignment_title || !assignment_description || !assignment_deadline) {
-      return res.status(400).json({ message: 'Missing required fields: courseId, title, description, and deadline are all required.' });
+    return res.status(400).json({ message: 'Missing required fields: combinedCourseId, title, description, and deadline are all required.' });
   }
 
   try {
-      const db = await connectDatabase(); // Assumes connectDatabase is a function to connect to your DB
+    const db = await connectDatabase();
 
-      // Fetch course details including the instructor's name by joining the courses table with the course_creation table
-      const [courseDetails] = await db.query(`
-          SELECT c.course_code, c.course_name, cc.course_instructor 
-          FROM courses AS c
-          JOIN course_creation AS cc ON c.id = cc.course_id
-          WHERE c.id = ?`, [courseId]);
+    // Fetch course details using the combinedCourseId
+    const [courseDetails] = await db.query(`
+      SELECT course_id, course_code, course_name, course_instructor 
+      FROM combined_courses
+      WHERE id = ?`, [courseId]);
 
+    if (!courseDetails || courseDetails.length === 0) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
 
-      if (!courseDetails || courseDetails.length === 0) {
-          return res.status(404).json({ message: 'Course not found' });
-      }
+    const { course_id, course_code, course_name, course_instructor } = courseDetails[0];
 
+    const insertResult = await db.query(
+      'INSERT INTO professor_assignment (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+      [
+        course_id, 
+        course_code, 
+        course_name, 
+        course_instructor, 
+        assignment_title, 
+        assignment_description, 
+        assignment_deadline
+      ]);
 
-      const { course_code, course_name, course_instructor } = courseDetails[0];
-
-      const insertResult = await db.query(
-          'INSERT INTO professor_assignment (course_id, course_code, course_name, course_instructor, assignment_title, assignment_description, assignment_deadline) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-          [
-              courseId, 
-              course_code, 
-              course_name, 
-              course_instructor, 
-              assignment_title, 
-              assignment_description, 
-              assignment_deadline
-          ]
-      );
-
-
-      return res.status(201).json({
-          message: 'Assignment created successfully',
-          assignmentId: insertResult.insertId
-      });
+    return res.status(201).json({
+      message: 'Assignment created successfully',
+      assignmentId: insertResult.insertId
+    });
   } catch (error) {
-      console.error('Error when creating an assignment:', error);
-      return res.status(500).json({ message: 'Internal server error' });
+    console.error('Error when creating an assignment:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
+
+
+// Function to get all assignments for a specific combined course
+exports.getAssignments = async (req, res) => {
+  const { combinedCourseId } = req.params;
+
+  if (!combinedCourseId) {
+    return res.status(400).json({
+      message: 'Combined course ID is required.'
+    });
+  }
+
+  try {
+    const db = await connectDatabase();
+    const [assignments] = await db.query(`
+      SELECT * 
+      FROM professor_assignment
+      WHERE course_id = (
+        SELECT course_id 
+        FROM combined_courses 
+        WHERE id = ?
+      )`, [combinedCourseId]);
+
+    if (assignments.length === 0) {
+      return res.status(404).json({ message: 'No assignments found for this combined course' });
+    }
+
+    res.status(200).json(assignments);
+  } catch (error) {
+    console.error('Error when retrieving assignments:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
+
+exports.updateAssignment = async (req, res) => {
+  const { combinedCourseId, assignmentId } = req.params;
+  const { assignment_title, assignment_description, assignment_deadline } = req.body;
+
+  if (!combinedCourseId || !assignmentId) {
+    return res.status(400).json({
+      message: 'Combined course ID and Assignment ID are required.'
+    });
+  }
+
+  if (!assignment_title && !assignment_description && !assignment_deadline) {
+    return res.status(400).json({
+      message: 'At least one field must be provided for update.'
+    });
+  }
+
+  try {
+    const db = await connectDatabase();
+    const updates = [];
+    const values = [];
+
+    if (assignment_title) {
+      updates.push('assignment_title = ?');
+      values.push(assignment_title);
+    }
+    if (assignment_description) {
+      updates.push('assignment_description = ?');
+      values.push(assignment_description);
+    }
+    if (assignment_deadline) {
+      updates.push('assignment_deadline = ?');
+      values.push(assignment_deadline);
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({
+        message: 'No valid fields provided for update.'
+      });
+    }
+
+    values.push(assignmentId, combinedCourseId); 
+
+    const [result] = await db.execute(`
+      UPDATE professor_assignment
+      SET ${updates.join(', ')}
+      WHERE id = ? AND course_id = (
+        SELECT course_id FROM combined_courses WHERE id = ?
+      )`, values);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'No assignment found with the given ID, or no changes were made.' });
+    }
+
+    res.status(200).json({ message: 'Assignment updated successfully' });
+  } catch (error) {
+    console.error('Error when updating assignment:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+exports.deleteAssignment = async (req, res) => {
+  const { combinedCourseId, assignmentId } = req.params;  // Ensure you are capturing both courseId and assignmentId from the route
+
+  if (!combinedCourseId || !assignmentId) {
+    return res.status(400).json({
+      message: 'Both courseId and assignmentId are required.'
+    });
+  }
+
+  try {
+    const db = await connectDatabase();
+
+    // Optional: Check if the assignment actually exists before deleting
+    const [existingAssignment] = await db.query(`
+      SELECT * FROM professor_assignment 
+      WHERE id = ? AND course_id = (
+        SELECT course_id FROM combined_courses WHERE id = ?
+      )`, [assignmentId, combinedCourseId]);
+
+    if (existingAssignment.length === 0) {
+      return res.status(404).json({ message: 'Assignment not found' });
+    }
+
+    // Perform the delete operation using a similar subquery approach for consistency
+    await db.query(`
+      DELETE FROM professor_assignment 
+      WHERE id = ? AND course_id = (
+        SELECT course_id FROM combined_courses WHERE id = ?
+      )`, [assignmentId, combinedCourseId]);
+
+    res.json({ message: 'Assignment deleted successfully' });
+  } catch (error) {
+    console.error('Error when deleting assignment:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
+
+
+
 
 
 exports.postAnnouncement = async (req, res) => {
@@ -237,6 +658,12 @@ exports.postAnnouncement = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
+
+
+
+
 
 
 
