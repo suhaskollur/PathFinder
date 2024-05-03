@@ -7,6 +7,7 @@ import StudentCourses from './components/Student/StudentCourses';
 import StudentEnrollment from './components/Student/StudentEnrollment'; // Import StudentEnrollment
 import ProfileSetup from './components/Student/ProfileSetup'; // Import ProfileSetup
 import ProfileDetails from './components/Student/ProfileDetails'; // Import ProfileDetails
+import AssignmentsPage from './components/Student/AssignmentsPage';
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
           <Route path="/courses" element={<StudentCourses />} />
           <Route path="/enrollment" element={<StudentEnrollment />} />
           <Route path="/setup-profile" element={<ProfileSetup />} /> {/* Add ProfileSetup route */}
-          <Route path="/profile" element={<ProfileDetails />} /> {/* Add ProfileDetails route */}
+          <Route path="/profile" element={<ProfileDetails />} />
+          <Route path="/assignments" element={<AssignmentsPage />} />  {/* Add ProfileDetails route */}
+          {/* <Route path="/assignments" component={AssignmentsPage} /> */}
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
 

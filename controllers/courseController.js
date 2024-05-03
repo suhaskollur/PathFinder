@@ -74,6 +74,27 @@ exports.getEnrolledCourses = async (netId) => {
   }
 };
 
+exports.getAssignmentsForStudent = async (netId) => {
+  try {
+    const db = await connectDatabase();
+
+    // Query to retrieve assignments for courses enrolled by the student
+    const [assignments] = await db.query(`
+      SELECT *
+      FROM professor_assignment
+      WHERE course_id IN (
+          SELECT course_id 
+          FROM enrollments 
+          WHERE net_id = ?
+      )
+    `, [netId]);
+
+    console.log('Assignments for student:', assignments); // Debugging line
+    return assignments;
+  } catch (error) {
+    throw new Error('Error getting assignments for student: ' + error.message);
+  }
+};
 
 exports.createOrFindCourse = async (req, res) => {
   const { course_code, course_name, course_description, course_instructor, course_credits } = req.body;

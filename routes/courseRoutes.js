@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { enrollCourses, getEnrolledCourses, getCoursesForProfessor, updateCourseDetails } = require('../controllers/courseController');
+const { enrollCourses, getEnrolledCourses, getCoursesForProfessor, updateCourseDetails, getAssignmentsForStudent } = require('../controllers/courseController');
 const { getCourses } = require('../utils/courseUtils'); // Import getCourses from courseUtils
 const { authenticateStudent, authenticateProfessor } = require('../middlewares/authMiddleware');
 
@@ -45,6 +45,19 @@ router.get('/enrolled-courses', authenticateStudent, async (req, res) => {
     return res.status(200).json(enrolledCourses);
   } catch (error) {
     console.error('Error getting enrolled courses:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Route to retrieve assignments for a student
+router.get('/assignments', authenticateStudent, async (req, res) => {
+  const { netId } = req.student; // Extract netId from authenticated student
+
+  try {
+    const assignments = await getAssignmentsForStudent(netId); // Call the function to retrieve assignments
+    return res.status(200).json(assignments);
+  } catch (error) {
+    console.error('Error getting assignments for student:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });

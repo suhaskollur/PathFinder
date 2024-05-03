@@ -38,7 +38,7 @@ function StudentDashboard() {
                 <div className="dashboard-card">
                     <h2>Assignments</h2>
                     <p>View your Assignments</p>
-                    <Link to="/assignments">View Assignments</Link>
+                    <Link to="/assignments" className="dashboard-button">View Assignments</Link>
                 </div>
 
             {/* Enrollment Card */}
