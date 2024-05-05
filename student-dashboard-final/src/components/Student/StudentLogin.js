@@ -21,7 +21,7 @@ function StudentLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/student/login', formData);  // Updated API endpoint
+            const response = await axios.post('/student/login', formData);  
             const token = response.data.token;
 
             localStorage.setItem('token', token);

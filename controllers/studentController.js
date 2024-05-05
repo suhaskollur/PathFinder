@@ -57,6 +57,8 @@ exports.loginStudent = async (req, res) => {
     }
 };
 
+
+
 exports.setupProfile = async (req, res) => {
   const { netId } = req.student; // Extract netId from authenticated student
   const profileData = req.body; // Profile details from request body
@@ -121,3 +123,79 @@ exports.getProfileByNetId = async (req, res) => {
       return res.status(500).json({ message: 'Internal server error' });
     }
   };
+
+
+
+
+
+// Function to get list of professors
+exports.getListOfProfessors = async (req, res) => {
+  try {
+    const db = await connectDatabase();
+    const [professors] = await db.query(`
+      SELECT course_code, course_name, course_description, course_instructor, course_credits 
+      FROM combined_courses
+      WHERE course_instructor IS NOT NULL AND course_instructor != ''
+    `);
+    if (professors.length === 0) {
+      return res.status(404).json({ message: 'No professors found this semester.' });
+    }
+    res.status(200).json(professors);
+  } catch (error) {
+    console.error('Error fetching professors:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+exports.authenticateToken = async (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  if (token == null) return res.sendStatus(401);
+  
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.netId = user.netId;
+      next();
+  });
+};
+
+
+exports.getAnnouncements = async (req, res) => {
+  if (!req.netId) {
+      console.log("No netId found in request");
+      return res.status(400).json({ message: 'Authentication failed. NetId is required.' });
+  }
+
+  const sql = `
+      SELECT 
+        a.title, 
+        a.message, 
+        a.posted_on, 
+        cc.course_name, 
+        cc.course_code,
+        cc.course_instructor
+      FROM announcements a
+      JOIN combined_courses cc ON a.course_id = cc.id
+      JOIN enrollments e ON cc.id = e.course_id
+      WHERE e.net_id = ?
+      ORDER BY a.posted_on DESC;`;
+
+  try {
+      const db = await connectDatabase();  // Ensure your connectDatabase function is correctly set up to handle async operations.
+      const [results] = await db.query(sql, [req.netId]);
+
+      if (results.length === 0) {
+          console.log("No announcements found for the netId:", req.netId);
+          return res.status(404).json({ message: 'No announcements found' });
+      }
+
+      console.log("Announcements retrieved successfully for netId:", req.netId);
+      res.json(results);
+  } catch (error) {
+      console.error('Error fetching announcements:', error);
+      return res.status(500).json({ message: 'Failed to retrieve announcements due to internal server error' });
+  }
+};
+

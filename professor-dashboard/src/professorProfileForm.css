@@ -1,0 +1,58 @@
+.professor-form-container {
+    width: 100%;
+    max-width: 600px; 
+    margin: 50px auto; 
+    padding: 30px; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow-y: auto; 
+    height: 80vh; 
+}
+
+
+.professor-form-container label {
+    display: block;
+    margin-bottom: 15px; 
+    font-weight: bold;
+    color: #444;
+}
+
+.professor-form-container input,
+.professor-form-container select {
+    width: calc(100% - 20px); 
+    padding: 10px;
+    margin-bottom: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.professor-form-container button {
+    padding: 12px 20px;
+    background-color: #0076a3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; 
+    transition: background-color 0.3s;
+}
+
+.professor-form-container button:hover {
+    background-color: #005682; 
+}
+
+.professor-form-container h1 {
+    font-size: 24px; 
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+
+@media (max-width: 768px) {
+    .professor-form-container {
+        padding: 10px;
+    }
+}

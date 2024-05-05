@@ -60,8 +60,6 @@ exports.loginProfessor = async (req, res) => {
 
 exports.logoutProfessor = async (req, res) => {
   try {
-    // In a real-world application, you would remove the token identifier associated with the user's session
-    // from the database or session storage. For demonstration purposes, we'll simply send a success response.
     return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
     console.error('Error logging out professor:', error);
@@ -69,13 +67,42 @@ exports.logoutProfessor = async (req, res) => {
   }
 };
 
+// FORGOT PASSWORD FOR PROFESSOR
+exports.forgotPasswordProfessor = async (req, res) => {
+  const { netId } = req.body;
+
+  try {
+    const db = await connectDatabase();
+
+    // Check if the professor exists in the database by netId
+    const [professors] = await db.query('SELECT userPassword FROM professors WHERE net_id = ?', [netId]);
+
+    if (professors.length > 0) {
+      // If the professor exists, retrieve the password (this is insecure in a real application)
+      const password = professors[0].userPassword;
+      return res.status(200).json({ password }); // Insecure: returning password in response
+    } else {
+      // If the professor is not found, return an error response
+      return res.status(404).json({ message: 'Professor not found' });
+    }
+  } catch (error) {
+    console.error('Error retrieving professor password:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
+
+
+
 
 exports.setupprofessorprofile = async (req, res) => {
   const { netId } = req.professor; // Extracting netId from authenticated professor
   const profile_info = req.body; // Profile details from request body
 
   // It's good to validate the input data here
-  if (!netId || !profile_info.first_name || !profile_info.last_name || !profile_info.email) {
+  if (!netId || !profile_info.First_Name || !profile_info.Last_Name || !profile_info.Email) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
@@ -83,19 +110,19 @@ exports.setupprofessorprofile = async (req, res) => {
     const db = await connectDatabase();
 
     // Insert professor's details into the professor_dashboard table
-    await db.query('INSERT INTO professor_dashboard (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    await db.query('INSERT INTO professor_dashboard (net_id, First_Name, Last_Name, Email, Phone_Number, Address, City, State, Country, Postal_code, Date_of_Birth, Gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
       netId,
-      profile_info.first_name,
-      profile_info.last_name,
-      profile_info.email,
-      profile_info.phone_number,
-      profile_info.address,
-      profile_info.city,
-      profile_info.state_province,
-      profile_info.country,
-      profile_info.postal_code,
-      profile_info.date_of_birth,
-      profile_info.gender
+      profile_info.First_Name,
+      profile_info.Last_Name,
+      profile_info.Email,
+      profile_info.Phone_Number,
+      profile_info.Address,
+      profile_info.City,
+      profile_info.State,
+      profile_info.Country,
+      profile_info.Postal_code,
+      profile_info.Date_of_Birth,
+      profile_info.Gender
     ]);
     return res.status(201).json({ message: 'Profile setup successful' });
   } catch (error) {
@@ -113,7 +140,7 @@ exports.getProfessorProfile = async (req, res) => {
       const db = await connectDatabase();
       const netId = req.professor.netId;
 
-      const [professor] = await db.query('SELECT net_id, email, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, date_of_birth, gender FROM professor_dashboard WHERE net_id = ?', [netId]);
+      const [professor] = await db.query('SELECT net_id, First_Name, Last_Name, Email, Phone_Number, Address, City, State, Country, Postal_code, Date_of_Birth, Gender FROM professor_dashboard WHERE net_id = ?', [netId]);
 
       if (professor.length === 0) {
           return res.status(404).json({ message: 'Professor not found' });
@@ -127,13 +154,13 @@ exports.getProfessorProfile = async (req, res) => {
 };
 
 exports.updateProfessorProfile = async (req, res) => {
-  const {first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, date_of_birth, gender } = req.body; // Assuming these are the fields you want to allow to update
+  const {First_Name, Last_Name, Email, Phone_Number, Address, City, State, Country, Postal_code, Date_of_Birth, Gender } = req.body; // Assuming these are the fields you want to allow to update
   const netId = req.professor.netId; // Extracted from the authenticated professor's token
 
   try {
       const db = await connectDatabase();
 
-      const [result] = await db.query('UPDATE professor_dashboard SET first_name = ?, last_name = ?, email = ?, phone_number = ?, address = ?, city = ?, state_province = ?, country = ?, postal_code = ?, date_of_birth = ?, gender = ? WHERE net_id = ?', [first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, date_of_birth, gender, netId]);
+      const [result] = await db.query('UPDATE professor_dashboard SET First_Name = ?, Last_Name = ?, Email = ?, Phone_Number = ?, Address = ?, City = ?, State = ?, Country = ?, Postal_code = ?, Date_of_Birth = ?, Gender = ? WHERE net_id = ?', [First_Name, Last_Name, Email, Phone_Number, Address, City, State, Country, Postal_code, Date_of_Birth, Gender, netId]);
 
       if (result.affectedRows === 0) {
           return res.status(404).json({ message: 'Professor not found' });
@@ -422,5 +449,34 @@ exports.updateAnnouncement = async (req, res) => {
   } catch (error) {
     console.error('Error updating announcement:', error);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+exports.getStudentsForCourse = async (req, res) => {
+  const { combinedCourseId } = req.params;
+
+  if (!combinedCourseId) {
+      return res.status(400).json({ message: "Course ID is required." });
+  }
+
+  try {
+      const db = await connectDatabase();
+      const [students] = await db.query(`
+        SELECT s.first_name, s.last_name, s.email, e.course_id, cc.course_name, cc.course_instructor
+        FROM enrollments e
+        JOIN students s ON s.net_id = e.net_id
+        JOIN combined_courses cc ON cc.course_id = e.course_id
+        WHERE cc.id = ?
+      `, [combinedCourseId]);
+
+      if (students.length === 0) {
+          return res.status(404).json({ message: "No students found for this course." });
+      }
+
+      res.json(students);
+  } catch (error) {
+      console.error("Error when retrieving students for the course:", error);
+      res.status(500).json({ message: "Internal server error." });
   }
 };

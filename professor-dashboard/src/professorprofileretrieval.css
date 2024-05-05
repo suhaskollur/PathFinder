@@ -1,0 +1,58 @@
+.professor-profile {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.professor-profile h1 {
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.professor-profile p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.professor-profile p strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.professor-profile button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: block; 
+    width: max-content;
+    margin-top: 20px; 
+    transition: background-color 0.3s ease;
+}
+
+.professor-profile button:hover {
+    background-color: #0056b3;
+}
+
+
+.professor-profile p.error-message {
+    color: #d9534f;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+.professor-profile p:hover {
+    background-color: #f8f9fa;
+}

@@ -1,0 +1,44 @@
+.enrolled-students-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.enrolled-students-header {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.enrolled-students-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.enrolled-student-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.enrolled-student-name {
+    margin-right: 15px;
+    color: #0056b3;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.enrolled-student-name:hover {
+    text-decoration: underline;
+}
+
+.enrolled-student-role {
+    font-size: 16px;
+    color: #666;
+}
+

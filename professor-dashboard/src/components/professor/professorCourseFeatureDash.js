@@ -25,7 +25,7 @@ const CourseFeatureDashboard = () => {
     { 
       title: "Student List",
       description: "View the list of students enrolled.",
-      path: `/students/${courseId}`
+      path: `/course/${courseId}/students`
     },
     { 
       title: "Grades",

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import axios from '../../axiosConfig';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import '../../styles.css';  
+import '../../styles.css';
 
 function ProfessorLogin() {
     const [formData, setFormData] = useState({
         netId: '',
         password: '',
     });
-
+    const [forgotNetId, setForgotNetId] = useState('');
+    const [showForgotModal, setShowForgotModal] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -21,17 +21,25 @@ function ProfessorLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/professors/login', formData); 
-            const token = response.data.token;
-
-            localStorage.setItem('token', token);
-
+            const response = await axios.post('/professors/login', formData);
+            localStorage.setItem('token', response.data.token);
             alert('Login successful!');
-
             navigate('/dashboard');
         } catch (error) {
             console.error('Error logging in:', error);
             alert('Login failed. Please try again.');
+        }
+    };
+
+    const handleForgotPasswordSubmit = async () => {
+        try {
+            const response = await axios.post('/professors/forgot-password', { netId: forgotNetId });
+            alert(`Your password is: ${response.data.password}`);
+            setShowForgotModal(false);
+            setForgotNetId('');
+        } catch (error) {
+            console.error('Error retrieving password:', error);
+            alert('Failed to retrieve password. Please check the Net ID and try again.');
         }
     };
 
@@ -45,6 +53,7 @@ function ProfessorLogin() {
                         type="text"
                         name="netId"
                         placeholder="Net ID"
+                        value={formData.netId}
                         onChange={handleChange}
                         required
                     />
@@ -52,28 +61,33 @@ function ProfessorLogin() {
                         type="password"
                         name="password"
                         placeholder="Password"
+                        value={formData.password}
                         onChange={handleChange}
                         required
                     />
                     <button type="submit">Login</button>
-
-                    <div className='msg'><p>Forgot your NetID or password?</p>
-                        <p><i>First-time users, activate your NetID.</i></p>
-                        <p><i>Need more help?</i></p>
-                        <div className="register-link">
-                            <p><i>New User? </i><Link to="/register">Register</Link></p>
-                        </div>
-                        <p><b>Ensure proper security — keep your password a secret</b></p>
+                    <a href="#" onClick={() => setShowForgotModal(true)}>Forgot your password?</a>
+                    <div className="register-link">
+                        <p>New User? <Link to="/register">Register</Link></p>
                     </div>
-
                     <div className='security'>
-                        <p>For security reasons, please <b>Log Out</b> and exit your web browser</p>
-                        <p>when you are done accessing services that require authentication!</p>
+                        <p>For security reasons, please Log Out and exit your web browser when you are done accessing services that require authentication!</p>
                     </div>
                 </form>
             </div>
-
-            {/* <p><b>Ensure proper security — keep your password a secret</b></p> */}
+            {showForgotModal && (
+                <div className="modal">
+                    <h4>Retrieve Password</h4>
+                    <input
+                        type="text"
+                        placeholder="Enter your Net ID"
+                        value={forgotNetId}
+                        onChange={(e) => setForgotNetId(e.target.value)}
+                    />
+                    <button onClick={handleForgotPasswordSubmit}>Submit</button>
+                    <button onClick={() => setShowForgotModal(false)}>Close</button>
+                </div>
+            )}
         </>
     );
 }

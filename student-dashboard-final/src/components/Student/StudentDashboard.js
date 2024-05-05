@@ -41,9 +41,17 @@ function StudentDashboard() {
                     <Link to="/assignments" className="dashboard-button">View Assignments</Link>
                 </div>
 
+                {/* List of Professors */}
+                <div className="dashboard-card">
+                    <h2>List of Professors</h2>
+                    <p>View Professor for this Semester</p>
+                    <Link to="/professorlist">List of Professors</Link>
+                </div>
+
             {/* Enrollment Card */}
             <div className="dashboard-card">
                 <h2>Enroll in a Course</h2>
+                <p>Add the course code for which you want to enroll</p>
                 <button onClick={handleEnrollClick} className="dashboard-button">Enroll</button>
             </div>
 
@@ -53,6 +61,12 @@ function StudentDashboard() {
                     <p>Update your profile information</p>
                     <Link to="/setup-profile" className="dashboard-button">Edit Profile</Link> &nbsp;
                     <Link to="/profile" className="dashboard-button">View Profile</Link>
+                </div>
+                {/* Announcement Retrieval Card */}
+                <div className="dashboard-card">
+                    <h2>Announcement</h2>
+                    <p>See the list of announcements for every course</p>
+                    <Link to="/announcement" className="dashboard-button">Announcement</Link> &nbsp;
                 </div>
             </div>
 
