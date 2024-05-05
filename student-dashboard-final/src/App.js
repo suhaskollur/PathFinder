@@ -7,12 +7,9 @@ import StudentCourses from './components/Student/StudentCourses';
 import StudentEnrollment from './components/Student/StudentEnrollment'; // Import StudentEnrollment
 import ProfileSetup from './components/Student/ProfileSetup'; // Import ProfileSetup
 import ProfileDetails from './components/Student/ProfileDetails'; // Import ProfileDetails
-<<<<<<< Updated upstream
 import AssignmentsPage from './components/Student/AssignmentsPage';
-=======
 import ProfessorsList from './components/Student/ProfessorCourseList';
 import AnnouncementsList from './components/Student/studentAnnouncements';
->>>>>>> Stashed changes
 
 function App() {
   return (
@@ -24,17 +21,15 @@ function App() {
           <Route path="/dashboard" element={<StudentDashboard />} />
           <Route path="/courses" element={<StudentCourses />} />
           <Route path="/enrollment" element={<StudentEnrollment />} />
-<<<<<<< Updated upstream
           <Route path="/setup-profile" element={<ProfileSetup />} /> {/* Add ProfileSetup route */}
           <Route path="/profile" element={<ProfileDetails />} />
           <Route path="/assignments" element={<AssignmentsPage />} />  {/* Add ProfileDetails route */}
-          {/* <Route path="/assignments" component={AssignmentsPage} /> */}
-=======
+          <Route path="/assignments" component={AssignmentsPage} />
           <Route path="/setup-profile" element={<ProfileSetup />} /> 
           <Route path="/profile" element={<ProfileDetails />} /> 
           <Route path="/professorlist" element={<ProfessorsList />} /> 
           <Route path="/announcement" element={<AnnouncementsList />} />
->>>>>>> Stashed changes
+
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
 
