@@ -59,6 +59,41 @@ exports.loginStudent = async (req, res) => {
 
 
 
+// exports.setupProfile = async (req, res) => {
+//   const { netId } = req.student; // Extract netId from authenticated student
+//   const profileData = req.body; // Profile details from request body
+
+//   try {
+//     const db = await connectDatabase();
+
+//     // Insert profile details into the Profile table
+//     await db.query('INSERT INTO Profile (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+//       netId,
+//       profileData.first_name,
+//       profileData.last_name,
+//       profileData.email,
+//       profileData.phone_number,
+//       profileData.address,
+//       profileData.city,
+//       profileData.state_province,
+//       profileData.country,
+//       profileData.postal_code,
+//       profileData.major_field_of_study,
+//       profileData.expected_graduation_year,
+//       profileData.date_of_birth,
+//       profileData.gender
+//     ]);
+
+//     return res.status(201).json({ message: 'Profile setup successful' });
+//   } catch (error) {
+//     console.error('Error setting up profile:', error);
+//     return res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+
+
+
+
 exports.setupProfile = async (req, res) => {
   const { netId } = req.student; // Extract netId from authenticated student
   const profileData = req.body; // Profile details from request body
@@ -66,8 +101,9 @@ exports.setupProfile = async (req, res) => {
   try {
     const db = await connectDatabase();
 
-    // Insert profile details into the Profile table
-    await db.query('INSERT INTO StudentProfile (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+    // Prepare the SQL query
+    const sql = `INSERT INTO Profile (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const values = [
       netId,
       profileData.first_name,
       profileData.last_name,
@@ -82,14 +118,19 @@ exports.setupProfile = async (req, res) => {
       profileData.expected_graduation_year,
       profileData.date_of_birth,
       profileData.gender
-    ]);
+    ];
 
+    // Execute the query
+    await db.query(sql, values);
+    db.end(); // Close database connection
     return res.status(201).json({ message: 'Profile setup successful' });
   } catch (error) {
     console.error('Error setting up profile:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };
+
+
 
 
 exports.getProfileByNetId = async (req, res) => {
@@ -99,7 +140,7 @@ exports.getProfileByNetId = async (req, res) => {
     const db = await connectDatabase();
 
     // Query the Profile table for the profile details based on the net_id from the students table
-    const [profile] = await db.query('SELECT * FROM StudentProfile WHERE net_id = ?', [netId]);
+    const [profile] = await db.query('SELECT * FROM Profile WHERE net_id = ?', [netId]);
 
     // Check if profile exists
     if (profile.length === 0) {

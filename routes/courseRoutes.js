@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const { enrollCourses, getEnrolledCourses, getCoursesForProfessor, updateCourseDetails, getAssignmentsForStudent } = require('../controllers/courseController');
 const { getCourses } = require('../utils/courseUtils'); // Import getCourses from courseUtils
 const { authenticateStudent, authenticateProfessor } = require('../middlewares/authMiddleware');
@@ -61,6 +62,38 @@ router.get('/assignments', authenticateStudent, async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+
+// Multer configuration for handling file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Specify the directory where files will be saved
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Use the current timestamp as the filename
+  }
+});
+
+
+const upload = multer({ storage: storage });
+
+// POST endpoint for submitting assignments
+router.post('/submit-assignment', upload.single('file'), (req, res) => {
+  try {
+    const file = req.file; // The uploaded file
+    const description = req.body.description; // Description provided by the user
+
+    // Process the file and description as needed
+    // Here, you can save the file to a storage location, save metadata to the database, etc.
+
+    // Return a success message
+    res.status(200).json({ message: 'Assignment submitted successfully' });
+  } catch (error) {
+    console.error('Error submitting assignment:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 console.log(createOrFindCourse);
 

@@ -221,3 +221,73 @@ exports.updateCourseDetails = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
+
+
+
+// Define the Submission schema
+const SubmissionSchema = {
+  assignmentId: Number,
+  studentId: Number,
+  filePath: String,
+  description: String,
+};
+
+exports.submitAssignment = async (req, res) => {
+  try {
+    const { courseCode, assignmentTitle } = req.body; // Assuming you're sending courseCode and assignmentTitle in the request body
+    const { file, description } = req.body;
+    const studentId = req.user.id; // Assuming you have authentication middleware that sets 'req.user'
+
+    // Validate input data
+    if (!file || !description || !courseCode || !assignmentTitle) {
+      return res.status(400).json({ message: 'File, description, courseCode, and assignmentTitle are required' });
+    }
+
+    // Store the file in a location accessible to your application
+    const filePath = `path/to/storage/${Date.now()}_${Math.random()}.pdf`; 
+    
+    fs.writeFile(filePath, file, 'base64', (err) => {
+      if (err) {
+        console.error('Error writing file:', err);
+        return res.status(500).json({ message: 'Error submitting assignment' });
+      }
+      console.log('File written successfully:', filePath);
+    });
+
+    // Retrieve courseId from courses table based on courseCode
+    const db = await connectDatabase();
+    const [course] = await db.query('SELECT id FROM courses WHERE course_code = ?', [courseCode]);
+    
+    if (!course || course.length === 0) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    const courseId = course[0].id;
+
+    // Retrieve assignmentId from professor_assignment table based on courseId and assignmentTitle
+    const [assignment] = await db.query(
+      'SELECT id FROM professor_assignment WHERE course_id = ? AND assignment_title = ?',
+      [courseId, assignmentTitle]
+    );
+    
+    if (!assignment || assignment.length === 0) {
+      return res.status(404).json({ message: 'Assignment not found' });
+    }
+
+    const assignmentId = assignment[0].id;
+
+    // Save metadata to the database
+    await db.query(
+      'INSERT INTO submissions (assignment_id, student_id, file_path, description) VALUES (?, ?, ?, ?)',
+      [assignmentId, studentId, filePath, description]
+    );
+
+    // Return a success response
+    return res.status(200).json({ message: 'Assignment submitted successfully' });
+  } catch (error) {
+    console.error('Error submitting assignment:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

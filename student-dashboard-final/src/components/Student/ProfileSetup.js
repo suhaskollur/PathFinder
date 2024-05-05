@@ -30,13 +30,13 @@ function ProfileSetup() {
         try {
             const token = localStorage.getItem('token');
             const config = {
-                baseURL: 'http://localhost:3001',
+                baseURL: 'http://localhost:3000',
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             };
     
-            await axios.post('/api/setup-profile', profileData, config);
+            await axios.post('/api/student/setup', profileData, config);
             alert('Profile setup successful');
         } catch (error) {
             console.error('Error setting up profile:', error);

@@ -10,6 +10,7 @@ import ProfileDetails from './components/Student/ProfileDetails'; // Import Prof
 import AssignmentsPage from './components/Student/AssignmentsPage';
 import ProfessorsList from './components/Student/ProfessorCourseList';
 import AnnouncementsList from './components/Student/studentAnnouncements';
+import AssignmentSubmissionPage from './components/Student/AssignmentSubmissionPage';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
           <Route path="/setup-profile" element={<ProfileSetup />} /> {/* Add ProfileSetup route */}
           <Route path="/profile" element={<ProfileDetails />} />
           <Route path="/assignments" element={<AssignmentsPage />} />  {/* Add ProfileDetails route */}
-          <Route path="/assignments" component={AssignmentsPage} />
+          <Route path="/assignments/:assignmentId/submit" element={<AssignmentSubmissionPage />} />
           <Route path="/setup-profile" element={<ProfileSetup />} /> 
           <Route path="/profile" element={<ProfileDetails />} /> 
           <Route path="/professorlist" element={<ProfessorsList />} /> 

@@ -16,7 +16,7 @@ router.post('/login', loginStudent);
 router.post('/logout',authenticateStudent, logoutStudent);
 
 // Setup profile for a student
-router.post('/setup-profile', authenticateStudent, setupProfile);
+router.post('/setup', authenticateStudent, setupProfile);
 
 // Get profile details for a student
 router.get('/profile', authenticateStudent, getProfileByNetId);
