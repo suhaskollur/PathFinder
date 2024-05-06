@@ -10,7 +10,7 @@ function ProfileSetup() {
         phone_number: '',
         address: '',
         city: '',
-        state_province: '',
+        state: '',
         country: '',
         postal_code: '',
         major_field_of_study: '',
@@ -104,7 +104,7 @@ function ProfileSetup() {
                 <input
                     type="text"
                     name="state_province"
-                    value={profileData.state_province}
+                    value={profileData.state}
                     onChange={handleChange}
                     placeholder="State/Province"
                     className="profile-setup-input"
