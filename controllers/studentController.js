@@ -203,7 +203,7 @@ exports.getAnnouncements = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
+
 
 exports.getStudentGrades = async (req, res) => {
   if (!req.netId) {
