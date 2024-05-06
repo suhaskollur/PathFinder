@@ -102,7 +102,7 @@ exports.setupProfile = async (req, res) => {
     const db = await connectDatabase();
 
     // Prepare the SQL query
-    const sql = `INSERT INTO Profile (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO Profile (net_id, first_name, last_name, email, phone_number, address, city, state, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const values = [
       netId,
       profileData.first_name,
@@ -111,7 +111,7 @@ exports.setupProfile = async (req, res) => {
       profileData.phone_number,
       profileData.address,
       profileData.city,
-      profileData.state_province,
+      profileData.state,
       profileData.country,
       profileData.postal_code,
       profileData.major_field_of_study,
@@ -240,3 +240,26 @@ exports.getAnnouncements = async (req, res) => {
   }
 };
 
+// FORGOT PASSWORD FOR STUDENT
+exports.forgotPasswordStudent = async (req, res) => {
+  const { netId } = req.body;
+
+  try {
+    const db = await connectDatabase();
+
+    // Check if the professor exists in the database by netId
+    const [students] = await db.query('SELECT userPassword FROM students WHERE net_id = ?', [netId]);
+
+    if (students.length > 0) {
+      // If the professor exists, retrieve the password (this is insecure in a real application)
+      const password = students[0].userPassword;
+      return res.status(200).json({ password }); // Insecure: returning password in response
+    } else {
+      // If the professor is not found, return an error response
+      return res.status(404).json({ message: 'Student not found' });
+    }
+  } catch (error) {
+    console.error('Error retrieving student password:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};

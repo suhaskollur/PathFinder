@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { setupProfile, getListOfProfessors, authenticateToken, getAnnouncements } = require('../controllers/studentController');
+const { setupProfile, getListOfProfessors, authenticateToken, getAnnouncements, forgotPasswordStudent } = require('../controllers/studentController');
 const { registerStudent, loginStudent, logoutStudent, getProfileByNetId } = require('../controllers/studentController');
 const { authenticateStudent } = require('../middlewares/authMiddleware');
 
@@ -11,6 +11,9 @@ router.post('/register', registerStudent);
 
 // Login functionality for a student
 router.post('/login', loginStudent);
+
+// Professor Forgot Password:
+router.post('/forgot', forgotPasswordStudent)
 
 // Logout functionality for a student
 router.post('/logout',authenticateStudent, logoutStudent);
