@@ -11,6 +11,7 @@ import AssignmentsPage from './components/Student/AssignmentsPage';
 import ProfessorsList from './components/Student/ProfessorCourseList';
 import AnnouncementsList from './components/Student/studentAnnouncements';
 import AssignmentSubmissionPage from './components/Student/AssignmentSubmissionPage';
+import StudentGrades from './components/Student/StudentRetrievedGrades';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
           <Route path="/profile" element={<ProfileDetails />} /> 
           <Route path="/professorlist" element={<ProfessorsList />} /> 
           <Route path="/announcement" element={<AnnouncementsList />} />
+          <Route path="/grades" element={<StudentGrades />} />
+
 
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

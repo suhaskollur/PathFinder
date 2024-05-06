@@ -1,64 +1,48 @@
-// AssignmentSubmissionPage.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../../AssignmentSubmissionPage.css';
+import { useParams } from 'react-router-dom';
+import '../../SubmitAssignment.css';
 
-const AssignmentSubmissionPage = () => {
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState('');
-  const [description, setDescription] = useState('');
-  const [message, setMessage] = useState('');
+function SubmitAssignmentForm() {
+    const { assignmentId } = useParams();
+    const [description, setDescription] = useState('');
+    const [message, setMessage] = useState('');
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
-  };
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('description', description);
-
-      // Send a POST request to the server to submit the assignment
-      const response = await axios.post('http://localhost:3000/api/submit-assignment', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:3000/api/assignments/${assignmentId}/submit`, {
+                description
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setMessage(response.data.message);
+        } catch (error) {
+            setMessage(error.response?.data.message || 'Failed to submit assignment');
         }
-      });
+    };
 
-      setMessage(response.data.message);
-    } catch (error) {
-      setMessage('Error submitting assignment.');
-      console.error('Error submitting assignment:', error);
-    }
-  };
-
-  return (
-    <div>
-      <h1>Assignment Submission</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="file">Select File:</label>
-          <input type="file" id="file" onChange={handleFileChange} />
-          {fileName && <p>Selected File: {fileName}</p>}
+    return (
+        <div className="form-container">
+            <form onSubmit={handleSubmit}>
+                <h2 className="form-title">Submit Assignment</h2>
+                <label>
+                    Assignment Description:
+                    <textarea
+                        className="textarea"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        required
+                    />
+                </label>
+                <button type="submit" className="submit-button">Submit</button>
+            </form>
+            {message && <p className="message">{message}</p>}
         </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <textarea id="description" value={description} onChange={handleDescriptionChange}></textarea>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
-  );
-};
+    );
+}
 
-export default AssignmentSubmissionPage;
+export default SubmitAssignmentForm;
+

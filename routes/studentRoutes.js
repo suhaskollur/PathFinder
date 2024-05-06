@@ -1,8 +1,6 @@
-// studentRoutes.js
-
 const express = require('express');
 const router = express.Router();
-const { setupProfile, getListOfProfessors, authenticateToken, getAnnouncements } = require('../controllers/studentController');
+const { setupProfile, getListOfProfessors, authenticateToken, getAnnouncements, getStudentGrades } = require('../controllers/studentController');
 const { registerStudent, loginStudent, logoutStudent, getProfileByNetId } = require('../controllers/studentController');
 const { authenticateStudent } = require('../middlewares/authMiddleware');
 
@@ -25,6 +23,9 @@ router.get('/profile', authenticateStudent, getProfileByNetId);
 router.get('/professors', getListOfProfessors)
 
 // Get announcements for students:
-router.get('/announcements', authenticateToken, getAnnouncements)
+router.get('/announcements', authenticateToken, getAnnouncements);
+
+// Get grades for students:
+router.get('/grades', authenticateToken, getStudentGrades);
 
 module.exports = router;

@@ -19,7 +19,7 @@ function ProfessorProfileDashboard() {
     return (
         <div className="dashboard-container">
             <div className="header">
-                <h1 className="dashboard-title">Professor Dashboard</h1>
+                <h1 className="dashboard-title">Profile Dashboard</h1>
                 <Link to="/logout" className="dashboard-button logout-btn">Logout</Link>
             </div>
 

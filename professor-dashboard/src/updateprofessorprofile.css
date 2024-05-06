@@ -1,34 +1,33 @@
-/* Main container for the profile edit form */
 .edit-profile-container {
     width: 100%;
-    max-width: 600px; /* Optimal width for form */
-    margin: 50px auto; /* Increased top and bottom margin for better spacing */
-    padding: 30px; /* More padding for a spacious layout */
+    max-width: 600px; 
+    margin: 50px auto; 
+    padding: 30px; 
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    overflow-y: auto; /* Vertical scrolling only */
-    height: 80vh; /* Limiting height to avoid excessive scrolling */
+    overflow-y: auto; 
+    height: 80vh;
 }
 
-/* Styling for form labels and inputs */
+
 .edit-profile-form label {
     display: block;
-    margin-bottom: 15px; /* Adequate space between each label and input */
+    margin-bottom: 15px; 
     font-weight: bold;
     color: #444;
 }
 
 .edit-profile-form input,
 .edit-profile-form select {
-    width: calc(100% - 20px); /* Width calculation to ensure no overflow */
+    width: calc(100% - 20px); 
     padding: 10px;
-    margin-bottom: 20px; /* Consistent space between each input */
+    margin-bottom: 20px; 
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-/* Button styling */
+
 .edit-profile-form button {
     padding: 12px 20px;
     background-color: #0076a3;
@@ -36,18 +35,17 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%; /* Full width for easier access */
+    width: 100%; 
     transition: background-color 0.3s;
 }
 
 .edit-profile-form button:hover {
-    background-color: #005682; /* Darker shade on hover for interaction feedback */
+    background-color: #005682; 
 }
 
-/* Header adjustments for visibility */
 .edit-profile-container h1 {
-    font-size: 24px; /* Clear, large font size */
+    font-size: 24px; 
     text-align: center;
     color: #333;
-    margin-bottom: 20px; /* Space after the header */
+    margin-bottom: 20px; 
 }

@@ -1,9 +1,7 @@
-/* AssignmentsPage.css */
-
 .assignments-container {
   width: 80%;
   margin: 20px auto;
-  padding-top: 150px; /* Add padding to make space for the fixed header */
+  padding-top: 150px; 
 }
 
 .assignments-header {
@@ -15,7 +13,7 @@
   color: #fff;
   padding: 10px 0;
   text-align: center;
-  z-index: 999; /* Ensure the header stays on top of other elements */
+  z-index: 999; 
 }
 
 .assignments-list {
@@ -60,7 +58,6 @@
   background-color: #0056b3;
 }
 
-/* Adjustments for smaller screens */
 @media (max-width: 768px) {
   .assignment-item {
     width: 100%;

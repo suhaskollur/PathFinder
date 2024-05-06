@@ -8,7 +8,8 @@ function CourseForm() {
     const [courseCredits, setCourseCredits] = useState('');
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent default form submission behavior
+        // Preventing default form submission behavior
+        event.preventDefault(); 
 
         const courseData = {
             course_code: courseCode,

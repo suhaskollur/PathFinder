@@ -24,41 +24,20 @@ const ProfessorProfileForm = () => {
         setInputs(prev => ({ ...prev, [name]: value }));
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setLoading(true);
-
-    //     // Retrieve the token from local storage
-    //     const token = localStorage.getItem('token');
-
-    //     try {
-    //         const response = await axios.post('http://localhost:3000/api/professors/profile/setup', inputs, {
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`  // Ensure your token is being sent correctly
-    //             }
-    //         });
-    //         setMessage(response.data.message);
-    //         setLoading(false);
-    //     } catch (error) {
-    //         console.error('Error setting up professor profile:', error);
-    //         setLoading(false);
-    //         setMessage('Failed to set up profile!');
-    //     }
-    // };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        const token = localStorage.getItem('token'); // Ensure the token is being retrieved correctly
+        // To ensure the token is being retrieved correctly
+        const token = localStorage.getItem('token'); 
     
-        console.log('Submitting with token:', token); // Debug: log the token
-        console.log('Data being sent:', inputs); // Debug: log the input data
+        console.log('Submitting with token:', token); 
+        console.log('Data being sent:', inputs); 
     
         try {
             const response = await axios.post('http://localhost:3000/api/professors/profile/setup', inputs, {
                 headers: {
-                    'Authorization': `Bearer ${token}`  // Ensure this header is correct
+                    'Authorization': `Bearer ${token}` 
                 }
             });
             setMessage(response.data.message);

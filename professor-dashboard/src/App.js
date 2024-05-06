@@ -21,6 +21,10 @@ import ListStudents from './components/professor/professorGetStudentList';
 import ProfessorProfileForm from './components/professor/professorProfileSetup';
 import ProfessorProfile from './components/professor/professorProfileRetrieval';
 import EditProfessorProfile from './components/professor/professorProfileUpdate';
+import GradesDashboard from './components/professor/professorGradesDash';
+import AssignmentsSubmissions from './components/professor/professorAssignmentGrading';
+import GradesByCourse from './components/professor/professorRetrieveGrades';
+
 
 
 
@@ -51,6 +55,10 @@ function App() {
           <Route path="/course/:courseId/assignments/view" element={<ListAssignments/>} />
           <Route path="/course/:courseId/assignments/:assignmentId/update" element={<EditAssignment/>} />
           <Route path="/course/:courseId/students" element={<ListStudents />} />
+          <Route path="/course/:courseId/grades" element={<GradesDashboard />} />
+          <Route path="/course/:courseId/grades/post" element={<AssignmentsSubmissions />} />
+          <Route path="/course/:courseId/grades/view" element={<GradesByCourse />} />
+
 
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

@@ -1,0 +1,57 @@
+.container {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+    max-width: 100%;
+    margin: auto;
+}
+
+.header {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+.assignment-section {
+    background: white;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    width: 98%;
+}
+
+.table-container {
+    max-height: 400px;
+    overflow-y: auto; 
+    scrollbar-width: thin; 
+    scrollbar-color: #888 #f4f4f4; 
+}
+
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f4f4f4;
+}
+
+.submissions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.submissions-table th, .submissions-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.submissions-table th {
+    background-color: #f0f0f0;
+}

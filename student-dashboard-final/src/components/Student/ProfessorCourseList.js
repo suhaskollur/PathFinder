@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../../professorlist.css'; // Make sure this path is correct for your CSS file
+import '../../professorlist.css'; 
 
 function ProfessorsList() {
     const [professors, setProfessors] = useState([]);

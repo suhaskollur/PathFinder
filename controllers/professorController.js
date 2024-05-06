@@ -1,5 +1,3 @@
-// professorController.js
-
 const connectDatabase = require('../config/db');
 const jwt = require('jsonwebtoken');
 
@@ -21,7 +19,6 @@ exports.registerProfessor = async (req, res) => {
       // If the student does not exist, insert the new student into the database
       const [result] = await db.query('INSERT INTO professors (net_id, email, userPassword, first_name, last_name) VALUES (?, ?, ?, ?, ?)', [netId, email, password, firstName, lastName]);
   
-      // Check if the query was successful
       if (result.affectedRows === 1) {
         return res.status(201).json({ message: 'Professor registered successfully' });
       } else {
@@ -78,9 +75,9 @@ exports.forgotPasswordProfessor = async (req, res) => {
     const [professors] = await db.query('SELECT userPassword FROM professors WHERE net_id = ?', [netId]);
 
     if (professors.length > 0) {
-      // If the professor exists, retrieve the password (this is insecure in a real application)
+      // If the professor exists, retrieve the password 
       const password = professors[0].userPassword;
-      return res.status(200).json({ password }); // Insecure: returning password in response
+      return res.status(200).json({ password }); 
     } else {
       // If the professor is not found, return an error response
       return res.status(404).json({ message: 'Professor not found' });
@@ -92,16 +89,10 @@ exports.forgotPasswordProfessor = async (req, res) => {
 };
 
 
-
-
-
-
-
 exports.setupprofessorprofile = async (req, res) => {
-  const { netId } = req.professor; // Extracting netId from authenticated professor
-  const profile_info = req.body; // Profile details from request body
+  const { netId } = req.professor; 
+  const profile_info = req.body; 
 
-  // It's good to validate the input data here
   if (!netId || !profile_info.First_Name || !profile_info.Last_Name || !profile_info.Email) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
@@ -109,7 +100,6 @@ exports.setupprofessorprofile = async (req, res) => {
   try {
     const db = await connectDatabase();
 
-    // Insert professor's details into the professor_dashboard table
     await db.query('INSERT INTO professor_dashboard (net_id, First_Name, Last_Name, Email, Phone_Number, Address, City, State, Country, Postal_code, Date_of_Birth, Gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
       netId,
       profile_info.First_Name,
@@ -155,7 +145,7 @@ exports.getProfessorProfile = async (req, res) => {
 
 exports.updateProfessorProfile = async (req, res) => {
   const {First_Name, Last_Name, Email, Phone_Number, Address, City, State, Country, Postal_code, Date_of_Birth, Gender } = req.body; // Assuming these are the fields you want to allow to update
-  const netId = req.professor.netId; // Extracted from the authenticated professor's token
+  const netId = req.professor.netId; 
 
   try {
       const db = await connectDatabase();
@@ -175,10 +165,9 @@ exports.updateProfessorProfile = async (req, res) => {
 
 
 exports.createAssignment = async (req, res) => {
-  const courseId = req.params.combinedCourseId; // Extract from URL parameters
+  const courseId = req.params.combinedCourseId;
   const { assignment_title, assignment_description, assignment_deadline } = req.body;
 
-  // Validate the input data
   if (!courseId || !assignment_title || !assignment_description || !assignment_deadline) {
     return res.status(400).json({ message: 'Missing required fields: combinedCourseId, title, description, and deadline are all required.' });
   }
@@ -186,7 +175,6 @@ exports.createAssignment = async (req, res) => {
   try {
     const db = await connectDatabase();
 
-    // Fetch course details using the combinedCourseId
     const [courseDetails] = await db.query(`
       SELECT course_id, course_code, course_name, course_instructor 
       FROM combined_courses
@@ -319,7 +307,7 @@ exports.updateAssignment = async (req, res) => {
 
 
 exports.deleteAssignment = async (req, res) => {
-  const { combinedCourseId, assignmentId } = req.params;  // Ensure you are capturing both courseId and assignmentId from the route
+  const { combinedCourseId, assignmentId } = req.params;  
 
   if (!combinedCourseId || !assignmentId) {
     return res.status(400).json({
@@ -330,7 +318,6 @@ exports.deleteAssignment = async (req, res) => {
   try {
     const db = await connectDatabase();
 
-    // Optional: Check if the assignment actually exists before deleting
     const [existingAssignment] = await db.query(`
       SELECT * FROM professor_assignment 
       WHERE id = ? AND course_id = (
@@ -341,7 +328,6 @@ exports.deleteAssignment = async (req, res) => {
       return res.status(404).json({ message: 'Assignment not found' });
     }
 
-    // Perform the delete operation using a similar subquery approach for consistency
     await db.query(`
       DELETE FROM professor_assignment 
       WHERE id = ? AND course_id = (
@@ -354,10 +340,6 @@ exports.deleteAssignment = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
-
-
 
 
 
@@ -396,13 +378,6 @@ exports.postAnnouncement = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
-
-
-
-
-
 
 
 exports.getAnnouncements = async (req, res) => {
@@ -478,5 +453,147 @@ exports.getStudentsForCourse = async (req, res) => {
   } catch (error) {
       console.error("Error when retrieving students for the course:", error);
       res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+
+
+exports.getSubmittedAssignments = async (req, res) => {
+  const { combinedCourseId } = req.params;
+
+  if (!combinedCourseId) {
+    return res.status(400).json({
+      message: 'Combined course ID is required.'
+    });
+  }
+
+  try {
+    const db = await connectDatabase();
+    const query = `
+      SELECT 
+        pa.id AS assignment_id,
+        pa.assignment_title AS assignment_title,
+        pa.assignment_description AS assignment_description,
+        s.id AS student_id,
+        CONCAT(s.first_name, ' ', s.last_name) AS student_name,  -- Correct comment syntax
+        sub.id AS submission_id,
+        sub.submission_time,
+        sub.description AS submission_description
+      FROM 
+        professor_assignment pa
+      JOIN 
+        submissions sub ON pa.id = sub.assignment_id
+      JOIN 
+        students s ON s.id = sub.student_id
+      WHERE 
+        pa.course_id = (
+          SELECT course_id 
+          FROM combined_courses 
+          WHERE id = ?
+        )
+      ORDER BY 
+        pa.id, s.id;
+    `;
+    const [results] = await db.query(query, [combinedCourseId]);
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No submitted assignments found for this combined course' });
+    }
+
+    const organizedData = organizeSubmissions(results);
+    res.status(200).json(organizedData);
+  } catch (error) {
+    console.error('Error when retrieving submitted assignments:', error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+};
+
+// Helper function to organize submissions data
+function organizeSubmissions(data) {
+  const assignments = {};
+  data.forEach(item => {
+    if (!assignments[item.assignment_id]) {
+      assignments[item.assignment_id] = {
+        id: item.assignment_id,
+        title: item.assignment_title,
+        description: item.assignment_description,
+        students: []
+      };
+    }
+    assignments[item.assignment_id].students.push({
+      student_id: item.student_id,
+      student_name: item.student_name,
+      submission_id: item.submission_id,
+      submission_time: item.submission_time,
+      description: item.submission_description,
+      file_path: item.file_path
+    });
+  });
+  return Object.values(assignments);  
+}
+
+
+exports.gradeofAssignment = async (req, res) => {
+  const { student_id, assignment_id, grade, feedback } = req.body; 
+
+  if (!student_id || !assignment_id || grade === undefined) {
+      return res.status(400).json({ message: "Student ID, Assignment ID, and grade are required." });
+  }
+
+  try {
+      const db = await connectDatabase();
+      const [rows] = await db.query(
+          `INSERT INTO grades (student_id, assignment_id, grade, feedback) VALUES (?, ?, ?, ?)
+           ON DUPLICATE KEY UPDATE grade = VALUES(grade), feedback = VALUES(feedback)`,
+          [student_id, assignment_id, grade, feedback]
+      );
+
+      res.status(200).json({ message: "Grade submitted successfully!" });
+      await db.end(); 
+  } catch (error) {
+      console.error('Error grading the assignment:', error);
+      res.status(500).json({ message: 'Failed to grade the assignment', error: error.message });
+  }
+};
+
+
+
+exports.getGradesByCourse = async (req, res) => {
+  const { combinedCourseId } = req.params;  
+
+  const sqlQuery = `
+  SELECT 
+      pa.id AS assignment_id,
+      pa.assignment_title AS assignment_title,
+      pa.assignment_description AS assignment_description,
+      s.id AS student_id,
+      CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+      sub.id AS submission_id,
+      sub.submission_time,
+      sub.description AS submission_description,
+      g.grade,
+      g.feedback
+  FROM 
+      professor_assignment pa
+  JOIN 
+      submissions sub ON pa.id = sub.assignment_id
+  JOIN 
+      students s ON s.id = sub.student_id
+  LEFT JOIN 
+      grades g ON g.student_id = s.id AND g.assignment_id = pa.id
+  WHERE 
+      pa.course_id = ?
+  ORDER BY 
+      pa.id, s.id;
+  `;
+
+  try {
+      const db = await connectDatabase();
+      const [results] = await db.query(sqlQuery, [combinedCourseId]);
+      res.status(200).json(results);
+      await db.end(); 
+  } catch (error) {
+      console.error('Error retrieving grades:', error);
+      res.status(500).json({ message: 'Failed to retrieve grades', error: error.message });
   }
 };

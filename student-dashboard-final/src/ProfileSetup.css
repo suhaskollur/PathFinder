@@ -6,7 +6,7 @@
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    overflow: hidden; /* Prevents horizontal scrollbar */
+    overflow: hidden; 
 }
 
 .profile-setup-title {
@@ -17,19 +17,19 @@
 
 .profile-setup-form {
     display: flex;
-    flex-wrap: wrap; /* Wrap elements to next line if necessary */
-    justify-content: center; /* Center elements horizontally */
-    align-items: center; /* Center elements vertically */
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center; 
 }
 
 .profile-setup-input {
-    width: calc(100% - 4px); /* Adjust the width as needed */
+    width: calc(100% - 4px); 
     margin-bottom: 11px;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 1rem;
-    box-sizing: border-box; /* Include padding and border in element's total width */
+    box-sizing: border-box; 
 }
 
 .profile-setup-input:focus {
@@ -37,7 +37,7 @@
 }
 
 .profile-setup-button {
-    width: calc(100% - 24px); /* Adjust the width as needed */
+    width: calc(100% - 24px); 
     padding: 12px;
     background-color: #007bff;
     color: #fff;
@@ -58,5 +58,5 @@
 }
 
 .profile-setup-input-group .profile-setup-input {
-    width: calc(50% - 10px); /* Adjust width of inputs */
+    width: calc(50% - 10px); 
 }

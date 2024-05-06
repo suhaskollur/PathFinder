@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../../axiosConfig';
 import { Link } from 'react-router-dom';
-import '../../styles.css';  // Correct the import path
+import '../../styles.css';  
 import '../../Regstyles.css';
 
 function StudentRegistration() {
@@ -21,7 +21,7 @@ function StudentRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/student/register', formData);  // Updated API endpoint
+      await axios.post('/student/register', formData);  
       alert('Registration successful!');
     } catch (error) {
       console.error('Error registering student:', error);

@@ -30,7 +30,7 @@ const CourseFeatureDashboard = () => {
     { 
       title: "Grades",
       description: "Access and submit student grades.",
-      path: `/grades/${courseId}`
+      path: `/course/${courseId}/grades`
     }
   ];
 

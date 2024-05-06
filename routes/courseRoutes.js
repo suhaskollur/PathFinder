@@ -1,10 +1,8 @@
-// courseRoutes.js
-
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { enrollCourses, getEnrolledCourses, getCoursesForProfessor, updateCourseDetails, getAssignmentsForStudent } = require('../controllers/courseController');
-const { getCourses } = require('../utils/courseUtils'); // Import getCourses from courseUtils
+const { enrollCourses, getEnrolledCourses, getCoursesForProfessor, updateCourseDetails, getAssignmentsForStudent, authenticateToken, submitAssignment } = require('../controllers/courseController');
+const { getCourses } = require('../utils/courseUtils'); 
 const { authenticateStudent, authenticateProfessor } = require('../middlewares/authMiddleware');
 
 
@@ -25,11 +23,13 @@ router.get('/courses', authenticateStudent, async (req, res) => {
 
 // Route to enroll in a course
 router.post('/enroll', authenticateStudent, async (req, res) => {
-  const { courseCodes } = req.body; // Extract courseCodes from request body
-  const { netId } = req.student; // Extract netId from authenticated student
+  // Extract courseCodes from request body
+  const { courseCodes } = req.body; 
+  // Extract netId from authenticated student
+  const { netId } = req.student; 
 
   try {
-    const enrollmentStatus = await enrollCourses(netId, courseCodes, netId); // Pass netId
+    const enrollmentStatus = await enrollCourses(netId, courseCodes, netId);
     return res.status(200).json(enrollmentStatus);
   } catch (error) {
     console.error('Error enrolling in courses:', error);
@@ -39,10 +39,10 @@ router.post('/enroll', authenticateStudent, async (req, res) => {
 
 // Route to get list of enrolled courses for a student
 router.get('/enrolled-courses', authenticateStudent, async (req, res) => {
-  const { netId } = req.student; // Ensure correct property name (net_id) is used
+  const { netId } = req.student; 
 
   try {
-    const enrolledCourses = await getEnrolledCourses(netId); // Pass net_id
+    const enrolledCourses = await getEnrolledCourses(netId); 
     return res.status(200).json(enrolledCourses);
   } catch (error) {
     console.error('Error getting enrolled courses:', error);
@@ -77,22 +77,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// POST endpoint for submitting assignments
-router.post('/submit-assignment', upload.single('file'), (req, res) => {
-  try {
-    const file = req.file; // The uploaded file
-    const description = req.body.description; // Description provided by the user
-
-    // Process the file and description as needed
-    // Here, you can save the file to a storage location, save metadata to the database, etc.
-
-    // Return a success message
-    res.status(200).json({ message: 'Assignment submitted successfully' });
-  } catch (error) {
-    console.error('Error submitting assignment:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
+router.post('/assignments/:assignmentId/submit', authenticateToken, submitAssignment)
 
 
 console.log(createOrFindCourse);

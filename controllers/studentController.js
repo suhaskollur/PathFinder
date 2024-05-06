@@ -1,5 +1,3 @@
-// studentController.js
-
 const connectDatabase = require('../config/db');
 const jwt = require('jsonwebtoken');
 
@@ -56,41 +54,6 @@ exports.loginStudent = async (req, res) => {
       return res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-
-
-// exports.setupProfile = async (req, res) => {
-//   const { netId } = req.student; // Extract netId from authenticated student
-//   const profileData = req.body; // Profile details from request body
-
-//   try {
-//     const db = await connectDatabase();
-
-//     // Insert profile details into the Profile table
-//     await db.query('INSERT INTO Profile (net_id, first_name, last_name, email, phone_number, address, city, state_province, country, postal_code, major_field_of_study, expected_graduation_year, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-//       netId,
-//       profileData.first_name,
-//       profileData.last_name,
-//       profileData.email,
-//       profileData.phone_number,
-//       profileData.address,
-//       profileData.city,
-//       profileData.state_province,
-//       profileData.country,
-//       profileData.postal_code,
-//       profileData.major_field_of_study,
-//       profileData.expected_graduation_year,
-//       profileData.date_of_birth,
-//       profileData.gender
-//     ]);
-
-//     return res.status(201).json({ message: 'Profile setup successful' });
-//   } catch (error) {
-//     console.error('Error setting up profile:', error);
-//     return res.status(500).json({ message: 'Internal server error' });
-//   }
-// };
-
 
 
 
@@ -224,7 +187,7 @@ exports.getAnnouncements = async (req, res) => {
       ORDER BY a.posted_on DESC;`;
 
   try {
-      const db = await connectDatabase();  // Ensure your connectDatabase function is correctly set up to handle async operations.
+      const db = await connectDatabase();  
       const [results] = await db.query(sql, [req.netId]);
 
       if (results.length === 0) {
@@ -237,6 +200,48 @@ exports.getAnnouncements = async (req, res) => {
   } catch (error) {
       console.error('Error fetching announcements:', error);
       return res.status(500).json({ message: 'Failed to retrieve announcements due to internal server error' });
+  }
+};
+
+
+exports.getStudentGrades = async (req, res) => {
+  if (!req.netId) {
+      console.log("No netId found in request");
+      return res.status(400).json({ message: 'Authentication failed. NetId is required.' });
+  }
+
+  const sql = `
+  SELECT 
+    s.id AS student_id,
+    CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+    g.grade,
+    g.feedback,
+    pa.assignment_title,
+    cc.course_name,
+    cc.course_code,
+    cc.course_instructor
+  FROM students s
+  JOIN grades g ON s.id = g.student_id
+  JOIN professor_assignment pa ON g.assignment_id = pa.id
+  JOIN combined_courses cc ON pa.course_id = cc.id
+  WHERE s.net_id = ?
+  ORDER BY g.id DESC;`;
+
+
+  try {
+      const db = await connectDatabase();  
+      const [results] = await db.query(sql, [req.netId]);
+
+      if (results.length === 0) {
+          console.log("No grades found for the netId:", req.netId);
+          return res.status(404).json({ message: 'No grades found' });
+      }
+
+      console.log("Grades retrieved successfully for netId:", req.netId);
+      res.json(results);
+  } catch (error) {
+      console.error('Error fetching grades:', error);
+      return res.status(500).json({ message: 'Failed to retrieve grades due to internal server error' });
   }
 };
 

@@ -21,14 +21,12 @@ function CoursesDashboard() {
         <div className="dashboard-container">
             <h1>Courses Dashboard</h1>
             <div className="dashboard-cards">
-                {/* Add New Course Card */}
                 <div className="dashboard-card">
                     <h2>Add a New Course</h2>
                     <p>Create a new course within your department.</p>
                     <button onClick={handleAddCourseClick} className="dashboard-button">Add Course</button>
                 </div>
 
-                {/* View All Courses Card */}
                 <div className="dashboard-card">
                     <h2>View All Courses</h2>
                     <p>See all the courses you are managing.</p>

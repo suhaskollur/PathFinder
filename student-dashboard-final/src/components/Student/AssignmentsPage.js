@@ -26,17 +26,17 @@ const AssignmentsPage = () => {
           setAssignments(response.data);
         } else {
           console.error('Expected an array, but received:', response.data);
-          setError('Failed to load assignments: Data format incorrect');  // Set error message
+          setError('Failed to load assignments: Data format incorrect');  
           setAssignments([]);  // Set assignments to an empty array to avoid type errors
         }
       } catch (error) {
         console.error('Error fetching assignments:', error);
-        setError('Failed to load assignments: ' + error.message);  // Set error message
+        setError('Failed to load assignments: ' + error.message); 
       }
     };
 
     fetchAssignments();
-  }, [token]);  // Dependency array includes token to refetch if it changes
+  }, [token]);  
 
   // const handleSubmission = (assignmentId) => {
   //   console.log(`Submitting assignment with ID ${assignmentId}`);
@@ -44,7 +44,7 @@ const AssignmentsPage = () => {
   // };
 
   if (error) {
-    return <div>Error: {error}</div>;  // Render an error message if there is an error
+    return <div>Error: {error}</div>;  
   }
 
   return (

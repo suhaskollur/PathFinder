@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../../professorprofileretrieval.css'; // Ensure the CSS path is correct
+import '../../professorprofileretrieval.css'; 
 
 const ProfessorProfile = () => {
     const [profile, setProfile] = useState(null);
@@ -13,7 +13,8 @@ const ProfessorProfile = () => {
             try {
                 const response = await axios.get('http://localhost:3000/api/professors/profile', {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming token storage in localStorage
+                        // Token storage in localStorage
+                        'Authorization': `Bearer ${localStorage.getItem('token')}` 
                     }
                 });
                 setProfile(response.data);
@@ -27,7 +28,7 @@ const ProfessorProfile = () => {
     }, []);
 
     const handleUpdateClick = () => {
-        navigate('/profile/edit');  // Adjust this route according to your app's routing setup
+        navigate('/profile/edit');  
     };
 
     if (error) return <p>{error}</p>;

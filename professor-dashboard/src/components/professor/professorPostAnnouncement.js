@@ -6,7 +6,8 @@ import '../../postAnnouncement.css';
 const PostAnnouncementForm = () => {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
-  const { courseId } = useParams(); // Extract courseId from URL parameters
+  // Extract courseId from URL parameters
+  const { courseId } = useParams(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();

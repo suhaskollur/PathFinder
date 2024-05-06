@@ -1,6 +1,5 @@
-// courseController.js
-
 const { connect } = require('http2');
+const jwt = require('jsonwebtoken');
 const connectDatabase = require('../config/db');
 const { readCoursesFromCSV, addCourseToCSV } = require('../utils/courseUtils');
 const path = require('path');
@@ -39,7 +38,6 @@ exports.enrollCourses = async (netId, courseCodes, requestingNetId) => {
         }
       } else {
         console.log(`Course with code ${courseCode} not found`);
-        // Handle the case where the provided courseCode is not found
       }
     }
 
@@ -67,7 +65,7 @@ exports.getEnrolledCourses = async (netId) => {
     console.log('Executing SQL query:', query);
     console.log('Parameters:', [netId]);
 
-    console.log('Enrolled courses:', enrolledCourses); // Debugging line
+    console.log('Enrolled courses:', enrolledCourses); 
     return enrolledCourses;
   } catch (error) {
     throw new Error('Error getting enrolled courses: ' + error.message);
@@ -89,7 +87,7 @@ exports.getAssignmentsForStudent = async (netId) => {
       )
     `, [netId]);
 
-    console.log('Assignments for student:', assignments); // Debugging line
+    console.log('Assignments for student:', assignments); 
     return assignments;
   } catch (error) {
     throw new Error('Error getting assignments for student: ' + error.message);
@@ -174,11 +172,8 @@ exports.getCoursesForProfessor = async (req, res) => {
 
 
 
-
-
 exports.updateCourseDetails = async (req, res) => {
   try {
-    // Assuming connectDatabase is a function that returns a promise for a database connection
     const db = await connectDatabase();
     
     // Extract courseId from the request parameters
@@ -208,7 +203,6 @@ exports.updateCourseDetails = async (req, res) => {
 
     // Check the result of the update operation
     if (result.affectedRows === 0) {
-      // No rows affected, hence course not found
       return res.status(404).json({ message: 'Course not found' });
     }
 
@@ -226,68 +220,55 @@ exports.updateCourseDetails = async (req, res) => {
 
 
 
-// Define the Submission schema
-const SubmissionSchema = {
-  assignmentId: Number,
-  studentId: Number,
-  filePath: String,
-  description: String,
+exports.authenticateToken = async (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  if (token == null) return res.sendStatus(401);
+  
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+      req.netId = user.netId;  // Assuming the token includes netId
+      next();
+  });
 };
 
+
+// Function to get the student_id using netId
+async function getStudentIdByNetId(netId) {
+  const db = await connectDatabase();
+  const [rows] = await db.query('SELECT id FROM students WHERE net_id = ?', [netId]);
+  db.end(); // Close the database connection
+  return rows.length > 0 ? rows[0].id : null;
+}
+
+// POST endpoint for submitting an assignment
 exports.submitAssignment = async (req, res) => {
+  const { description } = req.body;
+  const assignmentId = req.params.assignmentId;
+  const netId = req.netId;  // Retrieved from JWT token
+
+  if (!description) {
+      return res.status(400).json({ message: 'Description is required.' });
+  }
+
   try {
-    const { courseCode, assignmentTitle } = req.body; // Assuming you're sending courseCode and assignmentTitle in the request body
-    const { file, description } = req.body;
-    const studentId = req.user.id; // Assuming you have authentication middleware that sets 'req.user'
-
-    // Validate input data
-    if (!file || !description || !courseCode || !assignmentTitle) {
-      return res.status(400).json({ message: 'File, description, courseCode, and assignmentTitle are required' });
-    }
-
-    // Store the file in a location accessible to your application
-    const filePath = `path/to/storage/${Date.now()}_${Math.random()}.pdf`; 
-    
-    fs.writeFile(filePath, file, 'base64', (err) => {
-      if (err) {
-        console.error('Error writing file:', err);
-        return res.status(500).json({ message: 'Error submitting assignment' });
+      const studentId = await getStudentIdByNetId(netId);
+      if (!studentId) {
+          return res.status(404).json({ message: 'Student not found.' });
       }
-      console.log('File written successfully:', filePath);
-    });
 
-    // Retrieve courseId from courses table based on courseCode
-    const db = await connectDatabase();
-    const [course] = await db.query('SELECT id FROM courses WHERE course_code = ?', [courseCode]);
-    
-    if (!course || course.length === 0) {
-      return res.status(404).json({ message: 'Course not found' });
-    }
+      const db = await connectDatabase();
+      const [result] = await db.query(
+          `INSERT INTO submissions (assignment_id, student_id, description, submission_time)
+           VALUES (?, ?, ?, NOW())`,
+          [assignmentId, studentId, description]
+      );
+      db.end(); 
 
-    const courseId = course[0].id;
-
-    // Retrieve assignmentId from professor_assignment table based on courseId and assignmentTitle
-    const [assignment] = await db.query(
-      'SELECT id FROM professor_assignment WHERE course_id = ? AND assignment_title = ?',
-      [courseId, assignmentTitle]
-    );
-    
-    if (!assignment || assignment.length === 0) {
-      return res.status(404).json({ message: 'Assignment not found' });
-    }
-
-    const assignmentId = assignment[0].id;
-
-    // Save metadata to the database
-    await db.query(
-      'INSERT INTO submissions (assignment_id, student_id, file_path, description) VALUES (?, ?, ?, ?)',
-      [assignmentId, studentId, filePath, description]
-    );
-
-    // Return a success response
-    return res.status(200).json({ message: 'Assignment submitted successfully' });
+      res.status(201).json({ message: 'Assignment submitted successfully', submissionId: result.insertId });
   } catch (error) {
-    console.error('Error submitting assignment:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+      console.error('Error submitting assignment:', error);
+      res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 };

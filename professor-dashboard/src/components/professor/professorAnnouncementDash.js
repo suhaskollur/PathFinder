@@ -21,14 +21,12 @@ function AnnouncementsDashboard() {
         <div className="dashboard-container">
             <h1>Announcements Dashboard</h1>
             <div className="dashboard-cards">
-                {/* Post New Announcement Card */}
                 <div className="dashboard-card">
                     <h2>Post a New Announcement</h2>
                     <p>Share new information with students.</p>
                     <button onClick={handlePostAnnouncementClick} className="dashboard-button">Post Announcement</button>
                 </div>
 
-                {/* Update Existing Announcement Card */}
                 <div className="dashboard-card">
                     <h2>View All Announcement</h2>
                     <p>Check the List of Announcements</p>

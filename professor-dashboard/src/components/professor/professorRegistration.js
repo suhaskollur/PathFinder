@@ -21,7 +21,7 @@ function ProfessorRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/professors/register', formData);  // Updated API endpoint
+      await axios.post('/professors/register', formData);  
       alert('Registration successful!');
     } catch (error) {
       console.error('Error registering student:', error);

@@ -1,6 +1,3 @@
-// routes/professorRoutes.js
-
-
 const express = require('express');
 const router = express.Router();
 
@@ -18,7 +15,10 @@ const { registerProfessor,
         updateAssignment,
         deleteAssignment, 
         getStudentsForCourse,
-        forgotPasswordProfessor} = require('../controllers/professorController');
+        forgotPasswordProfessor,
+        getSubmittedAssignments,
+        gradeofAssignment,
+        getGradesByCourse} = require('../controllers/professorController');
 
 const { authenticateProfessor } = require('../middlewares/authMiddleware');
 
@@ -66,6 +66,15 @@ router.delete('/:combinedCourseId/assignments/:assignmentId', deleteAssignment)
 
 // Professor's student list retrieval route
 router.get('/:combinedCourseId/students', getStudentsForCourse);
+
+// Retrieving submitted Assignments of students:
+router.get('/:combinedCourseId/assignments/submitted', getSubmittedAssignments)
+
+// Posting student grades:
+router.post('/grade', gradeofAssignment)
+
+// Retrieving grades:
+router.get('/:combinedCourseId/grades', getGradesByCourse)
 
 
 module.exports = router;

@@ -1,0 +1,82 @@
+.grade-form-container {
+    background: #fff;
+    padding: 30px;
+    margin: 40px auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    width: 80%;
+    max-width: 700px; 
+}
+
+.grade-form-container h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.grade-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grade-form label {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #444;
+}
+
+.grade-form input[type="number"],
+.grade-form textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.grade-form textarea {
+    height: 250px; 
+    resize: vertical;
+}
+
+
+.grade-form input[type="number"]:focus,
+.grade-form textarea:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 8px rgba(0,86,179,0.2);
+}
+
+.grade-form button {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.grade-form button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.grade-form-message {
+    margin-top: 25px;
+    text-align: center;
+    color: green;
+    font-weight: bold;
+}
+
+
+.grade-form-message.error {
+    color: red;
+}
+
+.grade-form-message.success {
+    color: green;
+}
+

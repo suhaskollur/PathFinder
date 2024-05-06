@@ -1,21 +1,20 @@
-/* courseFeatureDashboard.css */
 .features-dashboard {
   text-align: center;
-  max-width: 1200px; /* Adjust the max-width if necessary */
-  margin: 40px auto; /* Increase the top and bottom margin if needed */
+  max-width: 1200px; 
+  margin: 40px auto; 
   padding: 20px;
 }
 
 .features-dashboard h1 {
-  font-size: 2rem; /* Adjust the size of the main header */
+  font-size: 2rem; 
   color: #333;
-  margin-bottom: 30px; /* Spacing below the main header */
+  margin-bottom: 30px; 
 }
 
 .features-dashboard-header {
-  font-size: 1.75rem; /* Adjust the size of the feature header */
+  font-size: 1.75rem; 
   color: #333;
-  margin-bottom: 20px; /* Spacing below the feature header */
+  margin-bottom: 20px;
 }
 
 .features-grid {
@@ -26,7 +25,7 @@
 }
 
 .feature-card {
-  width: calc(25% - 20px); /* Adjust width for smaller cards, four per row */
+  width: calc(25% - 20px); 
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -35,7 +34,7 @@
   transition: box-shadow 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Space out the title/description from the button */
+  justify-content: space-between;
 }
 
 .feature-card:hover {
@@ -43,11 +42,11 @@
 }
 
 .feature-content {
-  margin-bottom: 10px; /* Reduced spacing */
+  margin-bottom: 10px;
 }
 
 .feature-card button {
-  padding: 8px 12px; /* Adjust padding for a smaller button */
+  padding: 8px 12px; 
   background-color: #007bff;
   color: white;
   border: none;
@@ -62,18 +61,18 @@
 
 @media (max-width: 1024px) {
   .feature-card {
-    width: calc(33.333% - 20px); /* Three cards per row on medium screens */
+    width: calc(33.333% - 20px);
   }
 }
 
 @media (max-width: 768px) {
   .feature-card {
-    width: calc(50% - 20px); /* Two cards per row on small screens */
+    width: calc(50% - 20px); 
   }
 }
 
 @media (max-width: 480px) {
   .feature-card {
-    width: 100%; /* Full width on very small screens */
+    width: 100%; 
   }
 }
