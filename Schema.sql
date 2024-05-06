@@ -1,3 +1,16 @@
+CREATE DATABASE PathFinder;
+
+USE PathFinder;
+
+CREATE TABLE professors (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  net_id VARCHAR(50) UNIQUE NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  userPassword VARCHAR(100) NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE students (
   id INT AUTO_INCREMENT PRIMARY KEY,
   net_id VARCHAR(50) UNIQUE NOT NULL,
@@ -33,7 +46,7 @@ CREATE TABLE Profile (
     phone_number VARCHAR(20),
     address VARCHAR(255),
     city VARCHAR(100),
-    state_province VARCHAR(100),
+    state VARCHAR(100),
     country VARCHAR(100),
     postal_code VARCHAR(20),
     major_field_of_study VARCHAR(255),
@@ -41,15 +54,6 @@ CREATE TABLE Profile (
     date_of_birth DATE,
     gender ENUM('Male', 'Female', 'Other'),
     FOREIGN KEY (net_id) REFERENCES students(net_id)
-);
-
-CREATE TABLE professors (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  net_id VARCHAR(50) UNIQUE NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  userPassword VARCHAR(100) NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE course_creation (
@@ -60,41 +64,20 @@ CREATE TABLE course_creation (
   FOREIGN KEY (course_id) REFERENCES courses(id)
 );
 
-CREATE TABLE assignments (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  course_id INT,
-  title VARCHAR(100) NOT NULL,
-  description TEXT,
-  deadline DATETIME,
-  FOREIGN KEY (course_id) REFERENCES courses(id)
-);
-
-CREATE TABLE submissions (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  assignment_id INT,
-  student_id INT,
-  file_path VARCHAR(255),
-  submission_time DATETIME,
-  FOREIGN KEY (assignment_id) REFERENCES assignments(id),
-  FOREIGN KEY (student_id) REFERENCES students(id)
-);
-
-
-
 CREATE TABLE professor_dashboard (
   id INT AUTO_INCREMENT PRIMARY KEY,
   net_id VARCHAR(50) UNIQUE NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50) NOT NULL,
-  phone_number VARCHAR(20),
-  address VARCHAR(255),
-  city VARCHAR(100),
-  state_province VARCHAR(100),
-  country VARCHAR(100),
-  postal_code VARCHAR(20),
-  date_of_birth DATE,
-  gender ENUM('Male', 'Female', 'Other'),
+  Email VARCHAR(100) UNIQUE NOT NULL,
+  First_Name VARCHAR(50) NOT NULL,
+  Last_Name VARCHAR(50) NOT NULL,
+  Phone_Number VARCHAR(20),
+  Address VARCHAR(255),
+  City VARCHAR(100),
+  State VARCHAR(100),
+  Country VARCHAR(100),
+  Postal_code VARCHAR(20),
+  Date_of_Birth DATE,
+  Gender ENUM('Male', 'Female', 'Other'),
   FOREIGN KEY (net_id) REFERENCES professors(net_id)
 );
 
@@ -110,7 +93,6 @@ CREATE TABLE professor_assignment (
   FOREIGN KEY (course_id) REFERENCES courses(id)
 );
 
-
 CREATE TABLE combined_courses (
   id INT PRIMARY KEY AUTO_INCREMENT,
   course_id INT NOT NULL,
@@ -120,7 +102,6 @@ CREATE TABLE combined_courses (
   course_instructor VARCHAR(255),
   course_credits INT
 );
-
 
 DELIMITER $$
 
@@ -135,8 +116,6 @@ BEGIN
 END$$
 
 DELIMITER ;
-
-
 
 -- Trigger for updating `courses` after `combined_courses` is updated
 DELIMITER $$
@@ -172,8 +151,25 @@ CREATE TABLE announcements (
   title VARCHAR(255) NOT NULL,
   message TEXT NOT NULL,
   posted_on DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (course_id) REFERENCES courses(id) /* This assumes you have a 'courses' table */
+  FOREIGN KEY (course_id) REFERENCES courses(id) 
 );
 
+CREATE TABLE submissions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  assignment_id INT,
+  student_id INT,
+  description VARCHAR(255) NOT NULL,
+  submission_time DATETIME,
+  FOREIGN KEY (assignment_id) REFERENCES professor_assignment(id),
+  FOREIGN KEY (student_id) REFERENCES students(id)
+);
 
-
+CREATE TABLE grades (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id INT,
+  assignment_id INT,
+  grade DECIMAL(5, 2),
+  feedback VARCHAR(255),
+  FOREIGN KEY (student_id) REFERENCES students(id),
+  FOREIGN KEY (assignment_id) REFERENCES professor_assignment(id)
+);
