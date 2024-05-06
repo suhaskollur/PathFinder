@@ -246,7 +246,7 @@ exports.getStudentGrades = async (req, res) => {
   }
 };
 
-=======
+
 // FORGOT PASSWORD FOR STUDENT
 exports.forgotPasswordStudent = async (req, res) => {
   const { netId } = req.body;
@@ -270,4 +270,4 @@ exports.forgotPasswordStudent = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
->>>>>>> b3e4cfcc22accc72b4fd8a98d6b963906507e396
+
